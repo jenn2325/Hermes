@@ -1,6 +1,6 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAMES HERE"
+title: "Hermès 2020 Financial Analysis"
+author: "Jen Wang, Wenjie Wei and Yinqiu Feng"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
