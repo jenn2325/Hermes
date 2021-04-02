@@ -107,7 +107,19 @@ georaphical_rev_20
 
 ### 2020 1st Quarter Revenue by Geographical Area(Rachel)
 ```{r}
-
+get_quarter <-function(url, pages, lines){
+  library(pdftables)
+  download.file(url, "PDF", mode = "wb")
+  txt <- pdf_text("PDF")[pages]
+  df <- txt %>% read_lines() %>% strsplit(split = "\\s{2,}")
+  table = df[lines] %>% plyr::ldply()
+  names(table)<-table[1,]
+  table <- table[-1, ]
+  return(table)
+}
+url1 = "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_20200423_CA1T_en.pdf"
+geo_first = get_quarter(url1, c(4), c(4:13))
+geo_first
 ```
 
 ### 2020 2nd Quarter Revenue by Geographical Area(Wendy)
@@ -159,12 +171,22 @@ secgeo
 
 ### 2020 3rd Quarter Revenue by Geographical Area(Rachel)
 ```{r}
-
+url3="https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-10/1603296703/hermes_20201022_ca3t20_en.pdf"
+geo_third = get_quarter(url3, c(4), c(16:25))
+geo_third
 ```
 
 ### 2020 4th Quarter Revenue by Geographical Area(Rachel)
 ```{r}
-
+url4 = "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2021-02/1613734103/hermes_20210219_results2020_en.pdf"
+geo_fourth = get_quarter(url4, c(6), c(17:26))
+geo_fourth
+```
+### 2010-2020  Revenue by Geographical Area(Rachel)
+```{r}
+library("readxl")
+my_data <- read_excel("Resources/statistic_id245925_revenue-of-hermes-worldwide-2010-2020-by-geographical-region.xlsx")
+my_data
 ```
 
 
@@ -185,7 +207,8 @@ sector_rev_20
 
 ### 2020 1st Quarter Revenue by Sector(Rachel)
 ```{r}
-
+sector_first = get_quarter(url1, c(4), c(19:27))
+sector_first
 ```
 
 
@@ -200,13 +223,15 @@ secsector
 
 ### 2020 3rd Quarter Revenue by Sector(Rachel)
 ```{r}
-
+sector_third = get_quarter(url3, c(5),c(15:23))
+sector_third
 ```
 
 
 ### 2020 4th Quarter Revenue by Sector(Rachel)
 ```{r}
-
+sector_fourth = get_quarter(url4, c(7), c(16:24))
+sector_fourth
 ```
 
 
