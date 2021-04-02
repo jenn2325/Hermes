@@ -1,2 +1,349 @@
 # Data sources
 
+## Key Figures
+
+### 2019-2020 Key Figures (Jen)
+```{r}
+library(pdftools)
+library(tidyverse)
+PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
+  read_lines()
+PDF <- PDF[-c(1:120)]
+key_figutres.20 <- PDF[2:18]
+all_stat_lines <- key_figutres.20[2:17] %>%
+  strsplit(split = "\\s{2,}")
+
+var_lines <- c("Category", "2020", "2019")
+key_figutres.20 <- plyr::ldply(all_stat_lines)
+colnames(key_figutres.20) <- var_lines 
+key_figutres.20
+```
+
+
+### First Half2020 Key Figures (Wendy)
+```{r}
+PDF1 <- pdf_text("Resources/hermes_1hresults2020_va.pdf") %>%readr::read_lines()
+PDF1.table <-PDF1[c(131:149)]
+b<-PDF1.table%>%str_squish()%>%strsplit(split = " ")
+b<-b[-c(4,13,17)]
+get_variable1<-function(a){
+  variable_name<-c()
+  len<-c()
+  for(i in 1:length(a)){
+    len[i]<-length(a[[i]])
+    variable_name[i]<-paste(a[[i]][-c((len[i]-2):len[i])],collapse=' ')
+  }
+  return(variable_name)
+}
+h1data2019<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]]))]
+  }
+  return(data)
+}
+h1data2020<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-2)]
+  }
+  return(data)
+}
+key2020h1 <- data.frame('rownames'=get_variable1(b),'H12020'=h1data2020(b),'H12019'=h1data2019(b))
+key2020h1
+```
+
+
+### 2018-2019 Key Figures (Wendy)
+```{r}
+PDF <- pdf_text("Resources/hermes_20200423_CA1T_en.pdf") %>%
+readr::read_lines()
+PDF.table <-PDF[c(151:168)] 
+a<-PDF.table[-c(1:2)]%>%str_squish()%>%strsplit(split = " ")
+get_variable<-function(a){
+  variable_name<-c()
+  len<-c()
+  for(i in 1:length(a)){
+    len[i]<-length(a[[i]])
+    variable_name[i]<-paste(a[[i]][-c((len[i]-1):len[i])],
+                            collapse=' ')
+  }
+  return(variable_name)
+}
+data2019<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-1)]
+  }
+  return(data)
+}
+data2018<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]]))]
+  }
+  return(data)
+}
+key2019 <- data.frame('rownames'=get_variable(a),'2019'=data2019(a),'2018'=data2018(a))
+key2019
+```
+
+
+## Revenue by Geographical Area
+
+### 2020 Full Year Revenue by Geographical Area (Jen)
+```{r}
+PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
+  read_lines()
+PDF <- PDF[162:173]
+PDF <- PDF[-2]
+georaphical_rev_20 <- PDF[3:11] %>% 
+  strsplit(split = "\\s{2,}") %>% 
+  plyr::ldply()
+georaphical_rev_20 <- georaphical_rev_20[,-1]
+colnames(georaphical_rev_20) <- c("Country", "2020","2019","Published","At constant exchange rates")
+georaphical_rev_20
+```
+
+### 2020 1st Quarter Revenue by Geographical Area(Rachel)
+```{r}
+
+```
+
+### 2020 2nd Quarter Revenue by Geographical Area(Wendy)
+```{r}
+PDF1.geo<-PDF1[c(179:187)]
+c<-PDF1.geo%>%str_squish()%>%strsplit(split = " ")
+c<-c[-c(4,13,17)]
+get_variable2<-function(a){
+  variable_name<-c()
+  len<-c()
+  for(i in 1:length(a)){
+    len[i]<-length(a[[i]])
+    variable_name[i]<-paste(a[[i]][-c((len[i]-3):len[i])],collapse=' ')
+  }
+  return(variable_name)
+}
+secdata2019<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-2)]
+  }
+  return(data)
+}
+secdata2020<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-3)]
+  }
+  return(data)
+}
+evolpub<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-1)]
+  }
+  return(data)
+}
+evolcons<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][length(a[[i]])]
+  }
+  return(data)
+}
+secgeo<-data.frame('Area'=get_variable2(c),'2nd2020'=secdata2020(c),'2nd2019'=secdata2019(c),'evolution published'=evolpub(c),'evolution at constant exchange rates'=evolcons(c))
+secgeo
+```   
+
+
+### 2020 3rd Quarter Revenue by Geographical Area(Rachel)
+```{r}
+
+```
+
+### 2020 4th Quarter Revenue by Geographical Area(Rachel)
+```{r}
+
+```
+
+
+## Revenue by Sector
+
+### 2020 Full Year Revenue by Sector(Jen)
+```{r}
+PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
+  read_lines()
+PDF <- PDF[194:202]
+sector_rev_20 <- PDF[2:9] %>% 
+  strsplit(split = "\\s{2,}") %>% 
+  plyr::ldply()
+sector_rev_20 <- sector_rev_20[,-1]
+colnames(sector_rev_20) <- c("Country", "2020","2019","Published","At constant exchange rates")
+sector_rev_20
+```
+
+### 2020 1st Quarter Revenue by Sector(Rachel)
+```{r}
+
+```
+
+
+### 2020 2nd Quarter Revenue by Sector(Wendy)
+```{r}
+PDF1.sec<-PDF1[c(207:214)]
+d<-PDF1.sec%>%str_squish()%>%strsplit(split = " ")
+d<-d[-c(4,13,17)]
+secsector<-data.frame('Sector'=get_variable2(d),'2nd2020'=secdata2020(d),'2nd2019'=secdata2019(d),'evolution published'=evolpub(d),'evolution at constant exchange rates'=evolcons(d))
+secsector
+```
+
+### 2020 3rd Quarter Revenue by Sector(Rachel)
+```{r}
+
+```
+
+
+### 2020 4th Quarter Revenue by Sector(Rachel)
+```{r}
+
+```
+
+
+## 2020 Financial Statements
+
+### 2020 Consolidated Income Statement(Jen)
+
+```{r}
+
+PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
+  read_lines()
+PDF <- PDF[230:248]
+incomestatement_20 <- PDF[3:19] %>% 
+  strsplit(split = "\\s{2,}") %>% 
+  plyr::ldply()
+colnames(incomestatement_20) <- c("Category","2020","2019")
+incomestatement_20
+```
+
+
+### 2020 Consolidated Statement of Comprehensive Income(Jen)
+```{r}
+PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
+  read_lines()
+PDF <- PDF[249:261]
+comprehensive_income_20 <- PDF[3:13] %>% 
+  strsplit(split = "\\s{2,}") 
+comprehensive_income_20 <- comprehensive_income_20[-6]%>% 
+  plyr::ldply()
+colnames(comprehensive_income_20) <- c("Category","2020","2019")
+comprehensive_income_20
+```
+
+
+### 2020 Consolidated Balance Sheet(Jen)
+```{r}
+PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
+  read_lines()
+PDF <- PDF[269:319]
+balance_sheet_asset_20 <- PDF[4:22] %>% 
+  strsplit(split = "\\s{2,}") %>% 
+  plyr::ldply()
+colnames(balance_sheet_asset_20) <- c("category","31/12/2020","31/12/2019")
+balance_sheet_asset_20
+balance_sheet_liability_20 <- PDF[25:51] %>% 
+  strsplit(split = "\\s{2,}") %>% 
+  plyr::ldply()
+colnames(balance_sheet_liability_20) <- c("category","31/12/2020","31/12/2019")
+balance_sheet_liability_20
+```
+
+### 2020 Consolidated Statement of Cash Flows(Jen)
+```{r}
+# CONSOLIDATED STATEMENT OF CASH FLOWS
+PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
+  read_lines()
+PDF <- PDF[362:403]
+
+PDF <- PDF[3:42] %>% 
+  strsplit(split = "\\s{2,}")
+rownames <- c(rep(PDF[[1]],17),rep(PDF[[19]],9),rep(PDF[[29]],7),rep(PDF[[40]][1],4))
+cash_flows_20 <- PDF[c(-1,-19,-29)] %>% 
+  plyr::ldply() %>% 
+  cbind(rownames)
+cash_flows_20 <- cash_flows_20[,c(4,1,2,3)]
+colnames(cash_flows_20)[2:4] <- c("category","2020","2019")  
+cash_flows_20
+```
+
+
+## 2019 Financial Statements
+
+### 2019 Consolidated Income Statement(Jen)
+
+```{r}
+PDF <- pdf_text("Resources/hermes_2019_resultats_en.pdf") %>%
+  read_lines()
+PDF <- PDF[225:243]
+incomestatement_19 <- PDF[3:19] %>% 
+  strsplit(split = "\\s{2,}") %>% 
+  plyr::ldply()
+colnames(incomestatement_19) <- c("Category","2020","2019")
+incomestatement_19
+```
+
+### 2019 Consolidated Statement of Comprehensive Income(Jen)
+```{r}
+PDF <- pdf_text("Resources/hermes_2019_resultats_en.pdf") %>%
+  read_lines()
+PDF <- PDF[246:259]
+comprehensive_income_19 <- PDF[3:14] %>% 
+  strsplit(split = "\\s{2,}") 
+comprehensive_income_19 <- comprehensive_income_19[c(-2,-8)]%>% 
+  plyr::ldply()
+colnames(comprehensive_income_19) <- c("Category","2020","2019")
+comprehensive_income_19
+```
+
+
+### 2019 Consolidated Balance Sheet(Jen)
+```{r}
+PDF <- pdf_text("Resources/hermes_2019_resultats_en.pdf") %>%
+  read_lines()
+PDF <- PDF[268:321]
+balance_sheet_asset_19 <- PDF[3:21] %>% 
+  strsplit(split = "\\s{2,}") %>% 
+  plyr::ldply()
+colnames(balance_sheet_asset_19) <- c("category","31/12/2019","31/12/2018 restated","01/01/2018 restated")
+balance_sheet_asset_19
+balance_sheet_liability_19 <- PDF[24:54] %>% 
+  strsplit(split = "\\s{2,}") 
+balance_sheet_liability_19 <- balance_sheet_liability_19[-14]
+balance_sheet_liability_19[[14]][1] <- "Post-employment and other employee benefit obligations due in more than one year"
+balance_sheet_liability_19 <- balance_sheet_liability_19[-15]
+balance_sheet_liability_19 <- balance_sheet_liability_19[c(-21,-23)]
+balance_sheet_liability_19[[21]][1] <- "Post-employment and other employee benefit obligations due in less than one year"
+balance_sheet_liability_19 <- plyr::ldply(balance_sheet_liability_19)
+colnames(balance_sheet_liability_19) <- c("category","31/12/2019","31/12/2018 restated","01/01/2018 restated")
+balance_sheet_liability_19
+```
+
+### 2019 Consolidated Statement of Cash Flows(Jen)
+```{r}
+# CONSOLIDATED STATEMENT OF CASH FLOWS
+PDF <- pdf_text("Resources/hermes_2019_resultats_en.pdf") %>%
+  read_lines()
+PDF <- PDF[387:428]
+PDF <- PDF[3:42] %>% 
+  strsplit(split = "\\s{2,}")
+rownames <- c(rep(PDF[[1]],17),rep(PDF[[19]],8),rep(PDF[[28]],8),rep(PDF[[40]][1],4))
+cash_flows_19 <- PDF[c(-1,-19,-28)] %>% 
+  plyr::ldply() %>% 
+  cbind(rownames)
+cash_flows_19 <- cash_flows_19[,c(4,1,2,3)]
+colnames(cash_flows_19)[2:4] <- c("category","2019","2018 restated")  
+cash_flows_19
+```
+
+
+
