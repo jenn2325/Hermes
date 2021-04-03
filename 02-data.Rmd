@@ -230,7 +230,6 @@ write.csv(secsector,"data:raw/2020_Q2_Rev_Sector.csv")
 ### 2020 3rd Quarter Revenue by Sector(Rachel)
 ```{r}
 sector_third = get_quarter(url3, c(5),c(15:23))
-sector_third
 write.csv(sector_third,"data:raw/2020_Q3_Rev_Sector.csv")
 ```
 
