@@ -16,6 +16,7 @@ all_stat_lines <- key_figutres.20[2:17] %>%
 var_lines <- c("Category", "2020", "2019")
 key_figutres.20 <- plyr::ldply(all_stat_lines)
 colnames(key_figutres.20) <- var_lines 
+write.csv(key_figutres.20,"data:raw/2020_key_figures.csv")
 key_figutres.20
 ```
 
@@ -50,6 +51,7 @@ h1data2020<-function(a){
   return(data)
 }
 key2020h1 <- data.frame('rownames'=get_variable1(b),'H12020'=h1data2020(b),'H12019'=h1data2019(b))
+write.csv(key2020h1,"data:raw/2020_Half_Year_key_figures.csv")
 key2020h1
 ```
 
@@ -86,6 +88,7 @@ data2018<-function(a){
 }
 key2019 <- data.frame('rownames'=get_variable(a),'2019'=data2019(a),'2018'=data2018(a))
 key2019
+write.csv(key2019,"data:raw/2019_key_figures.csv")
 ```
 
 
@@ -103,6 +106,7 @@ georaphical_rev_20 <- PDF[3:11] %>%
 georaphical_rev_20 <- georaphical_rev_20[,-1]
 colnames(georaphical_rev_20) <- c("Country", "2020","2019","Published","At constant exchange rates")
 georaphical_rev_20
+write.csv(georaphical_rev_20,"data:raw/2020_Rev_Geo.csv")
 ```
 
 ### 2020 1st Quarter Revenue by Geographical Area(Rachel)
@@ -120,6 +124,7 @@ get_quarter <-function(url, pages, lines){
 url1 = "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_20200423_CA1T_en.pdf"
 geo_first = get_quarter(url1, c(4), c(4:13))
 geo_first
+write.csv(geo_first,"data:raw/2020_Q1_Rev_Geo.csv")
 ```
 
 ### 2020 2nd Quarter Revenue by Geographical Area(Wendy)
@@ -165,7 +170,7 @@ evolcons<-function(a){
   return(data)
 }
 secgeo<-data.frame('Area'=get_variable2(c),'2nd2020'=secdata2020(c),'2nd2019'=secdata2019(c),'evolution published'=evolpub(c),'evolution at constant exchange rates'=evolcons(c))
-secgeo
+write.csv(secgeo,"data:raw/2020_Q2_Rev_Geo.csv")
 ```   
 
 
@@ -173,20 +178,20 @@ secgeo
 ```{r}
 url3="https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-10/1603296703/hermes_20201022_ca3t20_en.pdf"
 geo_third = get_quarter(url3, c(4), c(16:25))
-geo_third
+write.csv(geo_third,"data:raw/2020_Q3_Rev_Geo.csv")
 ```
 
 ### 2020 4th Quarter Revenue by Geographical Area(Rachel)
 ```{r}
 url4 = "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2021-02/1613734103/hermes_20210219_results2020_en.pdf"
 geo_fourth = get_quarter(url4, c(6), c(17:26))
-geo_fourth
+write.csv(geo_fourth,"data:raw/2020_Q4_Rev_Geo.csv")
 ```
 ### 2010-2020  Revenue by Geographical Area(Rachel)
 ```{r}
 library("readxl")
 my_data <- read_excel("Resources/statistic_id245925_revenue-of-hermes-worldwide-2010-2020-by-geographical-region.xlsx")
-my_data
+write.csv(my_data,"data:raw/2010_to_2020_Rev_Geo.csv")
 ```
 
 
@@ -203,12 +208,13 @@ sector_rev_20 <- PDF[2:9] %>%
 sector_rev_20 <- sector_rev_20[,-1]
 colnames(sector_rev_20) <- c("Country", "2020","2019","Published","At constant exchange rates")
 sector_rev_20
+write.csv(sector_rev_20, "data:raw/2020_Rev_Sector.csv")
 ```
 
 ### 2020 1st Quarter Revenue by Sector(Rachel)
 ```{r}
 sector_first = get_quarter(url1, c(4), c(19:27))
-sector_first
+write.csv(sector_first,"data:raw/2020_Q1_Rev_Sector.csv")
 ```
 
 
@@ -218,20 +224,21 @@ PDF1.sec<-PDF1[c(207:214)]
 d<-PDF1.sec%>%str_squish()%>%strsplit(split = " ")
 d<-d[-c(4,13,17)]
 secsector<-data.frame('Sector'=get_variable2(d),'2nd2020'=secdata2020(d),'2nd2019'=secdata2019(d),'evolution published'=evolpub(d),'evolution at constant exchange rates'=evolcons(d))
-secsector
+write.csv(secsector,"data:raw/2020_Q2_Rev_Sector.csv")
 ```
 
 ### 2020 3rd Quarter Revenue by Sector(Rachel)
 ```{r}
 sector_third = get_quarter(url3, c(5),c(15:23))
 sector_third
+write.csv(sector_third,"data:raw/2020_Q3_Rev_Sector.csv")
 ```
 
 
 ### 2020 4th Quarter Revenue by Sector(Rachel)
 ```{r}
 sector_fourth = get_quarter(url4, c(7), c(16:24))
-sector_fourth
+write.csv(sector_fourth,"data:raw/2020_Q4_Rev_Sector.csv")
 ```
 
 
@@ -248,7 +255,8 @@ incomestatement_20 <- PDF[3:19] %>%
   strsplit(split = "\\s{2,}") %>% 
   plyr::ldply()
 colnames(incomestatement_20) <- c("Category","2020","2019")
-incomestatement_20
+write.csv(incomestatement_20,"data:raw/2020_income_statementr.csv")
+
 ```
 
 
@@ -262,7 +270,7 @@ comprehensive_income_20 <- PDF[3:13] %>%
 comprehensive_income_20 <- comprehensive_income_20[-6]%>% 
   plyr::ldply()
 colnames(comprehensive_income_20) <- c("Category","2020","2019")
-comprehensive_income_20
+write.csv(comprehensive_income_20,"data:raw/2020_comprehensice_income.csv")
 ```
 
 
@@ -275,12 +283,12 @@ balance_sheet_asset_20 <- PDF[4:22] %>%
   strsplit(split = "\\s{2,}") %>% 
   plyr::ldply()
 colnames(balance_sheet_asset_20) <- c("category","31/12/2020","31/12/2019")
-balance_sheet_asset_20
+write.csv(balance_sheet_asset_20,"data:raw/2020_balance_sheet_asset.csv")
 balance_sheet_liability_20 <- PDF[25:51] %>% 
   strsplit(split = "\\s{2,}") %>% 
   plyr::ldply()
 colnames(balance_sheet_liability_20) <- c("category","31/12/2020","31/12/2019")
-balance_sheet_liability_20
+write.csv(balance_sheet_liability_20,"data:raw/2020_balance_sheet_liability.csv")
 ```
 
 ### 2020 Consolidated Statement of Cash Flows(Jen)
@@ -298,7 +306,7 @@ cash_flows_20 <- PDF[c(-1,-19,-29)] %>%
   cbind(rownames)
 cash_flows_20 <- cash_flows_20[,c(4,1,2,3)]
 colnames(cash_flows_20)[2:4] <- c("category","2020","2019")  
-cash_flows_20
+write.csv(cash_flows_20,"data:raw/2020_cash_flows.csv")
 ```
 
 
@@ -314,7 +322,7 @@ incomestatement_19 <- PDF[3:19] %>%
   strsplit(split = "\\s{2,}") %>% 
   plyr::ldply()
 colnames(incomestatement_19) <- c("Category","2020","2019")
-incomestatement_19
+write.csv(incomestatement_19,"data:raw/2019_income_statement.csv")
 ```
 
 ### 2019 Consolidated Statement of Comprehensive Income(Jen)
@@ -327,7 +335,7 @@ comprehensive_income_19 <- PDF[3:14] %>%
 comprehensive_income_19 <- comprehensive_income_19[c(-2,-8)]%>% 
   plyr::ldply()
 colnames(comprehensive_income_19) <- c("Category","2020","2019")
-comprehensive_income_19
+write.csv(comprehensive_income_19,"data:raw/2019_comprehensive_income.csv")
 ```
 
 
@@ -340,7 +348,7 @@ balance_sheet_asset_19 <- PDF[3:21] %>%
   strsplit(split = "\\s{2,}") %>% 
   plyr::ldply()
 colnames(balance_sheet_asset_19) <- c("category","31/12/2019","31/12/2018 restated","01/01/2018 restated")
-balance_sheet_asset_19
+write.csv(balance_sheet_asset_19,"data:raw/2019_balance_sheet_asset.csv")
 balance_sheet_liability_19 <- PDF[24:54] %>% 
   strsplit(split = "\\s{2,}") 
 balance_sheet_liability_19 <- balance_sheet_liability_19[-14]
@@ -350,7 +358,7 @@ balance_sheet_liability_19 <- balance_sheet_liability_19[c(-21,-23)]
 balance_sheet_liability_19[[21]][1] <- "Post-employment and other employee benefit obligations due in less than one year"
 balance_sheet_liability_19 <- plyr::ldply(balance_sheet_liability_19)
 colnames(balance_sheet_liability_19) <- c("category","31/12/2019","31/12/2018 restated","01/01/2018 restated")
-balance_sheet_liability_19
+write.csv(balance_sheet_liability_19,"data:raw/2019_balance_sheet_liability.csv")
 ```
 
 ### 2019 Consolidated Statement of Cash Flows(Jen)
@@ -367,7 +375,7 @@ cash_flows_19 <- PDF[c(-1,-19,-28)] %>%
   cbind(rownames)
 cash_flows_19 <- cash_flows_19[,c(4,1,2,3)]
 colnames(cash_flows_19)[2:4] <- c("category","2019","2018 restated")  
-cash_flows_19
+write.csv(cash_flows_19,"data:raw/2019_cash_flows.csv")
 ```
 
 
