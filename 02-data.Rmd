@@ -410,3 +410,11 @@ write.csv(store_info,"rawdata/Storeinfo.csv")
 ```
 
 
+## Stock Info(Wendy)
+
+```{r}
+library(quantmod)
+getSymbols("^HRMS", from="2020-01-01")
+hermestock<-Cl(HRMS)
+write.csv(hermestock, "rawdata/Hermes_stock_info")
+```
