@@ -1,1 +1,13 @@
 # Data transformation
+
+## d3 data
+```{r}
+data <- read.csv(file = "Spring2021/5702/Hermes/rawdata/2010_to_2020_Rev_Geo.csv",skip = 2)
+data <- data[,-1] %>% 
+  column_to_rownames("NA.")
+write.csv(data,"Spring2021/5702/Hermes/cleaneddata/d3data.csv")
+```
+
+## treemap data
+
+
