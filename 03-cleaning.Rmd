@@ -2,12 +2,214 @@
 
 ## d3 data
 ```{r}
-data <- read.csv(file = "Spring2021/5702/Hermes/rawdata/2010_to_2020_Rev_Geo.csv",skip = 2)
+data <- read.csv(file = "rawdata/2010_to_2020_Rev_Geo.csv",skip = 2)
 data <- data[,-1] %>% 
   column_to_rownames("NA.")
-write.csv(data,"Spring2021/5702/Hermes/cleaneddata/d3data.csv")
+write.csv(data,"cleaneddata/d3data.csv")
 ```
 
 ## treemap data
+```{r}
+clean_geo <- function(path, quarter){
+  library(tibble)
+  library(tidyr)
+  library(dplyr)
+  library(data.table)
+  table = read.csv(file = path)
+
+  colnames(table)[2] = "Country"
+  colnames(table)[3] = "2020"
+  colnames(table)[4] = "2019"
+
+  table<-table[!(table$Country %like% "TOTAL" | table$Country %like% "Total"),]
+  table$`2020` = as.numeric(gsub(",", "", table$`2020`
+                                 ))
+  table$`2019` = as.numeric(table$`2019`)
+  table = table[2:4]
+  table <-table %>%  pivot_longer(cols = !Country, names_to = "Year", values_to = "Revenue") 
+  table['Quarter'] = quarter
+  table["Region"] = NA
+  table$Region[table$Country %like% "France"] = "Europe"
+  table$Region[table$Country %like% "Japan"] = "Asia"
+  table$Region[table$Country %like% "Americas"] = "Americas"
+  table$Region[table$Country %like% "Other"] = "Other"
+ 
+   return(table)
+}
+
+geo_Q1 = clean_geo('rawdata/2020_Q1_Rev_Geo.csv', 'Q1')
+geo_Q2 = clean_geo('rawdata/2020_Q2_Rev_Geo.csv', 'Q2')
+geo_Q3 = clean_geo('rawdata/2020_Q3_Rev_Geo.csv', 'Q3')
+geo_Q4 = clean_geo('rawdata/2020_Q4_Rev_Geo.csv', 'Q4')
+geo = rbind(geo_Q1, geo_Q2, geo_Q3, geo_Q4)
+write.csv(geo,"cleaneddata/rev_by_geo_quarterly_2020.csv")
+```
+
+```{r}
+clean_sec<- function(path, quarter){
+  library(tibble)
+  library(tidyr)
+  library(dplyr)
+  library(data.table)
+  table = read.csv(file = path)
+
+  colnames(table)[2] = "Sector"
+  colnames(table)[3] = "2020"
+  colnames(table)[4] = "2019"
+
+  table$`2020` = as.numeric(gsub(",", "", table$`2020`
+                                 ))
+  table$`2019` = as.numeric(table$`2019`)
+  table<-table[!(table$Sector %like% "TOTAL" ),]
+ 
+  table = table[2:4]
+  table <-table %>%  pivot_longer(cols = !Sector, names_to = "Year", values_to = "Revenue") 
+  table['Quarter'] = quarter
+
+ 
+   return(table)
+}
+
+sec_Q1 = clean_sec('rawdata/2020_Q1_Rev_Sector.csv', 'Q1')
+sec_Q2 = clean_sec('rawdata/2020_Q2_Rev_Sector.csv', 'Q2')
+sec_Q3 = clean_sec('rawdata/2020_Q3_Rev_Sector.csv', 'Q3')
+sec_Q4 = clean_sec('rawdata/2020_Q4_Rev_Sector.csv', 'Q4')
+
+sec = rbind(sec_Q1, sec_Q2, sec_Q3, sec_Q4)
+write.csv(sec,"cleaneddata/rev_by_sector_quarterly_2020.csv")
+```
+
+
+## Income Statement
+```{r}
+library(stringr)
+clean_income_statement<- function(incomestatement){
+  incomestatement <- incomestatement[1:15,]
+  colnames(incomestatement)[2] = 'statement'
+  incomestatement[,2] <- gsub('\\(|\\)|\\,','',incomestatement[,2])
+  incomestatement[,2] = as.numeric(incomestatement[,2])
+  incomestatement[c(2,4,5,9,11,14),2] = incomestatement[c(2,4,5,9,11,14),2] *(-1)
+  incomestatement$Measure = c("relative", "relative","total", "relative", "relative","total", "relative", "total", "relative", "total", "relative","relative", "relative","relative","total")
+  
+
+return(incomestatement)
+
+}
+
+incomestatement <- read.csv("rawdata/2020_income_statementr.csv")[-1]
+
+incomestatement19 <- clean_income_statement(incomestatement[,c(1,3)])
+incomestatement20 <- clean_income_statement(incomestatement[,c(1,2)])
+write.csv(incomestatement19,"cleaneddata/incomestatement19.csv")
+write.csv(incomestatement20,"cleaneddata/incomestatement20.csv")
+```
+
+## balance Sheet data
+```{r}
+asset20<-read.csv('rawdata/2020_balance_sheet_asset.csv')
+asset19<-read.csv('rawdata/2019_balance_sheet_asset.csv')
+liab20<-read.csv('rawdata/2020_balance_sheet_liability.csv')
+liab19<-read.csv('rawdata/2019_balance_sheet_liability.csv')
+```
+
+```{r}
+asset<-merge(asset19,asset20,by='category')
+liability<-merge(liab19,liab20,by='category')
+asset<-asset%>%select(category,X31.12.2018.restated,X31.12.2019.y,X31.12.2020)%>%filter(category%in%c('Current assets','Non-current assets'))
+liability<-liability%>%select(category,X31.12.2018.restated,X31.12.2019.y,X31.12.2020)%>%filter(category%in%c('Equity attributable to owners of the parent','Equity','Current liabilities','Non-current liabilities'))
+liability['category']<-c('Current liabilities','Equity','Stockholder Equity','Non-current liabilities')
+colnames(asset)<-c('Category','2018','2019','2020')
+colnames(liability)<-c('Category','2018','2019','2020')
+asset['al']<-rep('asset',dim(asset)[1])
+liability['al']<-rep('liability',dim(liability)[1])
+balance<-rbind(asset,liability)
+balancesheets<-balance%>%pivot_longer(c('2018','2019','2020'),names_to='Year',values_to='amount')%>%mutate(al=as.factor(al),Year=as.factor(Year))
+value<-balancesheets$amount
+value<-value%>%str_replace("\\,",'')
+balancesheets['amount']<-as.double(value)
+balancesheets<-balancesheets%>%mutate(amount=as.numeric(amount))
+write.csv(balancesheets,"cleaneddata/balancesheet.csv")
+```
+
+## key figure data
+```{r}
+
+```
+
+
+## stock info
+```{r}
+library(quantmod)
+getSymbols("RMS.PA", from="2020-01-01")
+hermestock<-Cl(RMS.PA)
+getSymbols('MC.PA',from='2020-01-01')
+lvmhstock<-Cl(MC.PA)
+getSymbols("^GSPC", from="2020-01-01")
+sp500index<-Cl(GSPC)
+getSymbols("KER.PA", from="2020-01-01")
+keringstock<-Cl(KER.PA)
+## CAC40 FRENCH INDEX
+getSymbols("^FCHI", from = "2010-01-01")
+CAC40i<-Cl(FCHI)
+getSymbols("AMZN", from="2020-01-01")
+amznstock<-Cl(AMZN)
+```
+
+```{r}
+library(zoo)
+hrms<-zoo(hermestock)
+lvmh<-zoo(lvmhstock)
+sp500<-zoo(sp500index)
+kering<-zoo(keringstock)
+amzn<-zoo(amznstock)
+fchi<-zoo(CAC40i)
+hstockprice<-as.data.frame(na.locf(hrms))
+lvstockprice<-as.data.frame(na.locf(lvmh))
+sp500price<-as.data.frame(na.locf(sp500))
+kerstockprice<-as.data.frame(na.locf(kering))
+amznstockprice<-as.data.frame(na.locf(amzn))
+cac40<-as.data.frame(na.locf(fchi))
+```
+
+
+```{r}
+library(lubridate)
+hstock <- tibble::rownames_to_column(hstockprice, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
+
+lvstock <- tibble::rownames_to_column(lvstockprice, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
+sp500<-tibble::rownames_to_column(sp500price, "date")%>%mutate(GSPC.Close=as.numeric(GSPC.Close))%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
+kerstock <- tibble::rownames_to_column(kerstockprice, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
+cac<-tibble::rownames_to_column(cac40, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
+amazon<-tibble::rownames_to_column(amznstockprice, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
+lux<-inner_join(hstock,lvstock)%>%inner_join(kerstock)
+closeprice<-inner_join(lux,sp500)%>%inner_join(cac)
+return<-closeprice
+for (i in 2:6){
+  for (j in 1:dim(closeprice)[1]){
+    if (j==1){
+      return[j,i]<-0
+    }else{
+      return[j,i]<-(closeprice[j,i]-(closeprice[j-1,i]))/closeprice[j-1,i]
+    }
+  }
+}
+colnames(return)<-c('Date','HERMES','LVMH','KERING','S&P500',"CAC40")
+write.csv(return,"cleaneddata/stockreturn.csv")
+```
+
+```{r}
+returnmar<-return%>%pivot_longer(c('HERMES','LVMH','KERING','S&P500',"CAC40"),names_to='stock',values_to='return')%>%mutate(stock=as.factor(stock))%>%filter(month(Date)==03)
+mins <- returnmar %>% group_by(stock) %>% filter(return == min(return))
+write.csv(returnmar,"cleaneddata/marchreturn.csv")
+```
+
+
+```{r}
+library(xts)
+h <- xts(x = return['HERMES'], order.by = return$Date)
+s <- xts(x = return['CAC40'], order.by = return$Date)
+don<-merge(h,s,join='inner')
+write.csv(don,"cleaneddata/interactiveplot.csv")
+```
 
 
