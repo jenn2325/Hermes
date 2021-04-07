@@ -1,1 +1,111 @@
 # Results
+
+```{r}
+library(treemap)
+geo = read.csv('cleaneddata/rev_by_geo_quarterly_2020.csv')
+sec = read.csv('cleaneddata/rev_by_sector_quarterly_2020.csv')
+treemap(geo,  index=c("Year", "Quarter","Region","Country"),vSize="Revenue")
+treemap(sec,  index=c("Year", "Quarter","Sector"),vSize="Revenue")
+```
+
+```{r}
+library(ggplot2)
+sec$Year_Q = paste(sec$Year, sec$Quarter)
+ggplot(sec , aes(Revenue, Sector, color = Year_Q)) +
+  geom_point() +
+  ggtitle("Revenue by sector from 2019 to 2020", sub = "not the best option") + ylab("") 
+
+```
+
+
+```{r}
+library(tidyverse)
+library(stringr)
+library(plotly)
+
+plot_income_statement<- function(incomestatement){
+  data = data.frame(x=factor(incomestatement$Category,levels=incomestatement$Category),incomestatement$Measure,y = incomestatement[,2])
+
+fig <- plot_ly(
+  data, name = "20", type = "waterfall", measure = ~incomestatement$Measure,
+  x = ~x, textposition = "outside", y= ~y, 
+  connector = list(line = list(color= "rgb(63, 63, 63)"))) 
+fig <- fig %>%
+  layout(title = "Profit and loss statement 2018",
+        xaxis = list(title = ""),
+        yaxis = list(title = ""),
+        autosize = TRUE,
+        showlegend = TRUE)
+
+return(fig)
+
+}
+incomestatement19 <- read.csv("cleaneddata/incomestatement19.csv")[-1]
+incomestatement20 <- read.csv("cleaneddata/incomestatement20.csv")[-1]
+
+plot_income_statement(incomestatement19)
+```
+
+```{r}
+plot_income_statement(incomestatement20)
+```
+
+## key figure time series(Wendy)
+```{r}
+keyfigure<-read.csv("cleaneddata/keyfigures2016_2020.csv")
+library(viridis)
+ggplot(keyfigure,aes(x=Year,y=value,color=Category,group=Category))+geom_line()+scale_color_viridis(discrete = TRUE)+labs(title='3 Key figures we need to pay attention with',y='index')
+```
+
+
+## Balance sheet T map(Wendy)
+```{r,fig.height=7.5,fig.width=12} 
+balancesheets<-read.csv("cleaneddata/balancesheet.csv")
+balancesheets%>% 
+  ggplot(aes(x = al, y = amount, fill = Category)) + 
+  geom_col(alpha = 0.8, color = "black") +
+  geom_text(aes(label = str_c(Category, amount, sep = "\n")), position = position_stack(vjust = 0.5), size = 4) + geom_text(data = balancesheets %>% group_by(Year, al) %>% summarise(total = sum(amount)), aes(x = al, y = -900, label = total, fill = "green"), size = 4) +
+  geom_segment(x = 1.5, y = 0, xend = 1.5, yend = 100000, color = "black", size = 1.5) +
+  scale_x_discrete(position = "top") +
+  scale_fill_brewer(palette = "Spectral") +
+  facet_wrap(~ Year) +
+  labs(title = "Balance Sheets",
+       y = "",
+       x = "") +
+  theme_classic() +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust=0.5),
+        axis.line.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(size=14),
+        strip.text = element_text(size=15),
+        axis.ticks = element_blank())
+```
+
+
+## Stock Time Series in March
+```{r,fig.width=15,fig.height=13}
+library(plotly)
+library(lubridate)
+return<-read.csv("cleaneddata/stockreturn.csv")%>%mutate(Date=ymd(Date))
+returnmar<-return%>%pivot_longer(c('HERMES','LVMH','KERING','S.P500',"CAC40"),names_to='stock',values_to='return')%>%mutate(stock=as.factor(stock))%>%filter(month(Date)==03)
+mins <- returnmar %>% group_by(stock) %>% filter(return == min(return))
+q<-ggplot(returnmar,aes(y=return,x=Date,color=stock))+geom_line(size=0.6)+facet_grid(stock~.)+ggtitle('HERMES Stock Return vs Other in 2020 March')+theme_grey(8)+theme(legend.title=element_blank())+geom_point(data=mins,aes(x=Date,y=return,group=stock),size=1,color='black')+labs(x='',y='')
+ggplotly(q)
+```
+
+## Hermes Stock time series vs French Index in 2020
+```{r}
+library(xts)
+library(dygraphs)
+h <- xts(x = return['HERMES'], order.by = return$Date)
+s <- xts(x = return['CAC40'], order.by = return$Date)
+don<-merge(h,s,join='inner')
+p <- dygraph(don) %>%dyGroup(c("HERMES", "CAC40"), drawPoints = TRUE, color = c("blue", "green"))%>%
+  dyOptions(labelsUTC = TRUE, fillGraph=TRUE, fillAlpha=0.1, drawGrid = FALSE) %>%
+  dyRangeSelector() %>%
+  dyCrosshair(direction = "vertical") %>%
+  dyHighlight(highlightCircleSize = 5, highlightSeriesBackgroundAlpha = 0.2, hideOnMouseOut = FALSE)  %>%
+  dyRoller(rollPeriod = 1)
+p
+```
