@@ -133,54 +133,45 @@ write.csv(balancesheets,"cleaneddata/balancesheet.csv")
 
 ## key figure data
 ```{r}
-
+key_figures.1620<-read.csv("rawdata/2016_2020_key_figures.csv")
+table<-key_figures.1620%>%filter(Category%in%c('Revenue','Workforce -number of employees','Recurring operating income 2'))
+df<-as.data.frame(t(table))[-c(1:2),]
+colnames(df)<-c('Revenue','RecurringOI','Workforce')
+date<-rownames(df)
+rownames(df)<-NULL
+df['Year']<-date
+df1<-df%>%mutate(Revenue=as.numeric(Revenue),Workforce=as.numeric(Workforce),RecurringOI=as.numeric(RecurringOI))
+index<-function(y){
+  standard<-y[1]
+  a<-lapply(y, function(x) (x/standard)*100)
+  return(unlist(a))
+}
+df2<-df1%>% mutate_at(c("Revenue",'RecurringOI', "Workforce"), ~(index(.) %>% as.vector))
+df3<-df2%>%pivot_longer(c('Revenue','RecurringOI','Workforce'),names_to='Category',values_to='value')%>%mutate(Category=as.factor(Category))
+df3['Year']<-df3$Year%>%str_remove('\\X')
+write.csv(df3,"cleaneddata/keyfigures2016_2020.csv")
 ```
 
-
-## stock info
-```{r}
-library(quantmod)
-getSymbols("RMS.PA", from="2020-01-01")
-hermestock<-Cl(RMS.PA)
-getSymbols('MC.PA',from='2020-01-01')
-lvmhstock<-Cl(MC.PA)
-getSymbols("^GSPC", from="2020-01-01")
-sp500index<-Cl(GSPC)
-getSymbols("KER.PA", from="2020-01-01")
-keringstock<-Cl(KER.PA)
-## CAC40 FRENCH INDEX
-getSymbols("^FCHI", from = "2010-01-01")
-CAC40i<-Cl(FCHI)
-getSymbols("AMZN", from="2020-01-01")
-amznstock<-Cl(AMZN)
-```
-
+## stock data
 ```{r}
 library(zoo)
-hrms<-zoo(hermestock)
-lvmh<-zoo(lvmhstock)
-sp500<-zoo(sp500index)
-kering<-zoo(keringstock)
-amzn<-zoo(amznstock)
-fchi<-zoo(CAC40i)
-hstockprice<-as.data.frame(na.locf(hrms))
-lvstockprice<-as.data.frame(na.locf(lvmh))
-sp500price<-as.data.frame(na.locf(sp500))
-kerstockprice<-as.data.frame(na.locf(kering))
-amznstockprice<-as.data.frame(na.locf(amzn))
-cac40<-as.data.frame(na.locf(fchi))
+cac40i<-read.csv("rawdata/CAC40_stock_info.csv")
+hstockprice<-read.csv("rawdata/Hermes_stock_info.csv")
+lvstockprice<-read.csv("rawdata/LVMH_stock_info.csv")
+sp500price<-read.csv("rawdata/S&P500_info.csv")
+kerstockprice<-read.csv("rawdata/KERING_stock_info.csv")
+fchi<-zoo(cac40i)
+cac40<-as.data.frame(na.locf(cac40i))
 ```
 
 
 ```{r}
 library(lubridate)
-hstock <- tibble::rownames_to_column(hstockprice, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
-
-lvstock <- tibble::rownames_to_column(lvstockprice, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
-sp500<-tibble::rownames_to_column(sp500price, "date")%>%mutate(GSPC.Close=as.numeric(GSPC.Close))%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
-kerstock <- tibble::rownames_to_column(kerstockprice, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
-cac<-tibble::rownames_to_column(cac40, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
-amazon<-tibble::rownames_to_column(amznstockprice, "date")%>%mutate(date=ymd(date))%>%filter(year(date)==2020)
+hstock <-hstockprice%>%mutate(date=ymd(date))%>%select(date,RMS.PA.Close)
+lvstock <- lvstockprice%>%mutate(date=ymd(date))%>%select(date,MC.PA.Close)
+sp500<-sp500price%>%mutate(GSPC.Close=as.numeric(GSPC.Close))%>%mutate(date=ymd(date))%>%select(date,GSPC.Close)
+kerstock <- kerstockprice%>%mutate(date=ymd(date))%>%select(date,KER.PA.Close)
+cac<-cac40%>%mutate(date=ymd(date))%>%select(date,FCHI.Close)
 lux<-inner_join(hstock,lvstock)%>%inner_join(kerstock)
 closeprice<-inner_join(lux,sp500)%>%inner_join(cac)
 return<-closeprice
@@ -197,19 +188,6 @@ colnames(return)<-c('Date','HERMES','LVMH','KERING','S&P500',"CAC40")
 write.csv(return,"cleaneddata/stockreturn.csv")
 ```
 
-```{r}
-returnmar<-return%>%pivot_longer(c('HERMES','LVMH','KERING','S&P500',"CAC40"),names_to='stock',values_to='return')%>%mutate(stock=as.factor(stock))%>%filter(month(Date)==03)
-mins <- returnmar %>% group_by(stock) %>% filter(return == min(return))
-write.csv(returnmar,"cleaneddata/marchreturn.csv")
-```
 
-
-```{r}
-library(xts)
-h <- xts(x = return['HERMES'], order.by = return$Date)
-s <- xts(x = return['CAC40'], order.by = return$Date)
-don<-merge(h,s,join='inner')
-write.csv(don,"cleaneddata/interactiveplot.csv")
-```
 
 
