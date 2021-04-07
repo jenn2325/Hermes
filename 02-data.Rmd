@@ -91,6 +91,26 @@ key2019
 write.csv(key2019,"rawdata/2019_key_figures.csv")
 ```
 
+## 2016-2020 key figure(Wendy)
+```{r}
+library(pdftools)
+library(tidyverse)
+info <- pdf_text("Resources/key figure info.pdf") %>%
+  read_lines()
+info<-info[23:39]
+keyinfo<- info[2:17] %>%
+  strsplit(split = "\\s{2,}")
+for (i in 1:16){
+  keyinfo[[i]]<-keyinfo[[i]][2:7]
+}
+var <- c("Category", "2020", "2019","2018","2017","2016")
+key_figures.1620 <- plyr::ldply(keyinfo)
+result1620<-as.matrix(key_figures.1620)
+result1620<-result1620%>%str_replace("[()]",'-')%>%str_replace("[()]",'')%>%str_replace("\\,",'')
+key_figures.1620<-as.data.frame(matrix(data=result1620,16,6))
+colnames(key_figures.1620) <- var
+write.csv(key_figures.1620,"2016_2020_key_figures.csv")
+```
 
 ## Revenue by Geographical Area
 
@@ -414,7 +434,22 @@ write.csv(store_info,"rawdata/Storeinfo.csv")
 
 ```{r}
 library(quantmod)
-getSymbols("^HRMS", from="2020-01-01")
-hermestock<-Cl(HRMS)
-write.csv(hermestock, "rawdata/Hermes_stock_info")
+library(tidyverse)
+library(lubridate)
+getSymbols("RMS.PA", from="2020-01-01",to='2021-01-01')
+hermestock<-as.data.frame(Cl(RMS.PA))%>%tibble::rownames_to_column("date")
+write.csv(hermestock, "rawdata/Hermes_stock_info.csv")
+getSymbols('MC.PA',from='2020-01-01',to='2021-01-01')
+lvmhstock<-as.data.frame(Cl(MC.PA))%>%tibble::rownames_to_column("date")
+write.csv(lvmhstock, "rawdata/LVMH_stock_info.csv")
+getSymbols("^GSPC", from="2020-01-01",to='2021-01-01')
+sp500index<-as.data.frame(Cl(GSPC))%>%tibble::rownames_to_column("date")
+write.csv(sp500index, "rawdata/S&P500_info.csv")
+getSymbols("KER.PA", from="2020-01-01",to='2021-01-01')
+keringstock<-as.data.frame(Cl(KER.PA))%>%tibble::rownames_to_column("date")
+write.csv(keringstock, "rawdata/KERING_stock_info.csv")
+## CAC40 FRENCH INDEX
+getSymbols("^FCHI", from = "2010-01-01",to='2021-01-01')
+CAC40i<-as.data.frame(Cl(FCHI))%>%tibble::rownames_to_column("date")
+write.csv(CAC40i, "rawdata/CAC40_stock_info.csv")
 ```
