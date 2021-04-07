@@ -109,7 +109,7 @@ result1620<-as.matrix(key_figures.1620)
 result1620<-result1620%>%str_replace("[()]",'-')%>%str_replace("[()]",'')%>%str_replace("\\,",'')
 key_figures.1620<-as.data.frame(matrix(data=result1620,16,6))
 colnames(key_figures.1620) <- var
-write.csv(key_figures.1620,"2016_2020_key_figures.csv")
+write.csv(key_figures.1620,"rawdata/2016_2020_key_figures.csv")
 ```
 
 ## Revenue by Geographical Area
