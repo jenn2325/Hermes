@@ -82,15 +82,16 @@ write.csv(sec,"cleaneddata/rev_by_sector_quarterly_2020.csv")
 
 ## Income Statement
 ```{r}
-library(stringr)
+llibrary(stringr)
 clean_income_statement<- function(incomestatement){
   incomestatement <- incomestatement[1:15,]
   colnames(incomestatement)[2] = 'statement'
   incomestatement[,2] <- gsub('\\(|\\)|\\,','',incomestatement[,2])
   incomestatement[,2] = as.numeric(incomestatement[,2])
   incomestatement[c(2,4,5,9,11,14),2] = incomestatement[c(2,4,5,9,11,14),2] *(-1)
-  incomestatement$Measure = c("relative", "relative","total", "relative", "relative","total", "relative", "total", "relative", "total", "relative","relative", "relative","relative","total")
-  
+  incomestatement$Measure = c("relative", "relative","total", "relative", "relative","total", "relative", "total", "relative", "total", "relative","relative", "total","relative","total")
+  incomestatement = incomestatement[-c(3,6, 8, 10, 13), ]
+  incomestatement$Category = c("Revenue", "Cost of Sales", "S&A expenses", "Other I&E", "Other non-recurring I&E", "Net financial income", "Income tax", "Net income from associate", "Non-controlling interests", "Net Income")
 
 return(incomestatement)
 
@@ -102,6 +103,7 @@ incomestatement19 <- clean_income_statement(incomestatement[,c(1,3)])
 incomestatement20 <- clean_income_statement(incomestatement[,c(1,2)])
 write.csv(incomestatement19,"cleaneddata/incomestatement19.csv")
 write.csv(incomestatement20,"cleaneddata/incomestatement20.csv")
+
 ```
 
 ## balance Sheet data
