@@ -191,5 +191,29 @@ write.csv(return,"cleaneddata/stockreturn.csv")
 ```
 
 
+## Store Data
+```{r}
+store <- read.csv("rawdata/Storeinfo.csv")[,-1]
+store$Country[4] <- "UK"
+store$Country[7] <- "Monaco"
+China <- store %>% 
+  filter(Country == "Hong Kong" | Country == "Macao" | Country == "Mainland China")
+Americas <- store %>% 
+  filter(Country == "Caribbean" | Country == "United States")
+Americas <- c("USA", sum(Americas$number.of.stores), sum(Americas$new))
+
+China <- c("China", sum(China$number.of.stores), sum(China$new))
+store <- store %>% 
+  mutate(number.of.stores = as.numeric(number.of.stores)) %>% 
+  mutate(new = as.numeric(new)) %>% 
+  filter(Country != "Hong Kong" & Country != "Macao" & Country != "Mainland China" & Country != "United States" & Country != "Caribbean") %>% 
+  rbind(China) %>% 
+  rbind(Americas) %>% 
+  mutate(number.of.stores = as.integer(number.of.stores)) %>% 
+  mutate(new = as.integer(new))
+write.csv(store,"cleaneddata/storeinfo.csv")
+
+```
+
 
 
