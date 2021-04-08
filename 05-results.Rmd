@@ -8,13 +8,52 @@ treemap(geo,  index=c("Year", "Quarter","Region","Country"),fontsize.labels=c(30
 treemap(sec,  index=c("Year", "Quarter","Sector"),fontsize.labels=c(30,20),vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))
 ```
 
-```{r}
+```{r,fig.height=7,fig.width=10}
 library(ggplot2)
+sec = read.csv('cleaneddata/rev_by_sector_quarterly_2020.csv')
 sec$Year_Q = paste(sec$Year, sec$Quarter)
-ggplot(sec , aes(Revenue, Sector, color = Year_Q)) +
-  geom_point() +
-  ggtitle("Revenue by sector from 2019 to 2020", sub = "not the best option") + ylab("") 
+sec<-sec%>%mutate(Sector=as.factor(Sector),Year=as.factor(Year),Year_Q=factor(Year_Q,levels=c('2019 Q1','2019 Q2','2019 Q3','2019 Q4','2020 Q1','2020 Q2','2020 Q3','2020 Q4')))%>%group_by(Year_Q)%>%mutate(percent=round(Revenue*100/sum(Revenue),0),total=sum(Revenue))
+pos<-c()
+for (i in 1:dim(sec)[1]){
+  if(sec[i,]$Sector=='Leather Goods and Saddlery '){
+    pos[i]<-sec[i,]$total-200
+  }else if(sec[i,]$Sector=='Watches'){
+    pos[i]<-sec[i,]$Revenue-10
+  }else if(sec[i,]$Sector=='Silk and Textiles'){
+    answer<-sec%>%filter(Year_Q==sec[i,]$Year_Q,
+                         Sector=='Watches')
+    pos[i]<-sec[i,]$Revenue+answer$Revenue-20
+  }else if (sec[i,]$Sector=='Ready-to-Wear and Accessories '){
+    answer<-sec%>%
+      filter(Year_Q==sec[i,]$Year_Q,
+             Sector%in%c('Watches','Silk and Textiles'))%>%
+      summarize(sum=sum(Revenue))
+    pos[i]<-sec[i,]$Revenue+answer$sum-80
+  }else if (sec[i,]$Sector=='Perfumes'){
+    answer<-sec%>%
+      filter(Year_Q==sec[i,]$Year_Q,
+             Sector%in%c('Watches',
+                         'Silk and Textiles',
+                         'Ready-to-Wear and Accessories '))%>%summarize(sum=sum(Revenue))
+    pos[i]<-sec[i,]$Revenue+answer$sum-40
+  }else if(sec[i,]$Sector=='Other products '){
+    answer<-sec%>%
+      filter(Year_Q==sec[i,]$Year_Q,
+             Sector%in%c('Watches','Silk and Textiles',
+                         'Ready-to-Wear and Accessories ','Perfumes'))%>%
+      summarize(sum=sum(Revenue))
+    pos[i]<-sec[i,]$Revenue+answer$sum
+  }else if(sec[i,]$Sector=='Other Hermes sectors'){
+    answer<-sec%>%
+      filter(Year_Q==sec[i,]$Year_Q,Sector=='Leather Goods and Saddlery ')
+    pos[i]<-as.numeric(sec[i,]$total)-answer$Revenue-30
+    }
+}
 
+df = data.frame(sec,pos=pos)
+ggplot(df%>%group_by(Year),aes(x=Year_Q,y=Revenue,fill=Sector)) +scale_fill_brewer(palette = "Set2")+
+  geom_bar(stat="identity")+
+  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=5)+theme(axis.title=element_text(size=18))
 ```
 
 
@@ -23,18 +62,34 @@ library(tidyverse)
 library(stringr)
 library(plotly)
 
-plot_income_statement<- function(incomestatement){
+text1= c("+6883.4", "-2124.9", "-1815.7", "-604", "",'-68.6','-751','+15.9','-7', "Total")
+text2=c('+6389.4','-2013.3','-1698.5','-696.2','+91.1','-86.1','-613','+16.1','-4.1','Total')
+plot_income_statement<- function(incomestatement,text){
   
   data = data.frame(x=factor(incomestatement$Category,levels=incomestatement$Category),incomestatement$Measure,y = incomestatement[,2])
 
 fig <- plot_ly(
-  data, name = "20", type = "waterfall", measure = ~incomestatement$Measure,
-  x = ~x, textposition = "outside", y= ~y, 
+  data, name = "20", type = "waterfall",width=4, measure = ~incomestatement$Measure,
+  x = ~x, textposition = "outside", y= ~y, text=~text,
   connector = list(line = list(color= "rgb(63, 63, 63)"))) 
+f2 <- list(
+  family = "Old Standard TT, serif",
+  size = 14,
+  color = "black"
+)
+a <- list(
+  title = "",
+  autotick = FALSE,
+  ticks = "outside",
+  dtick = 1,
+  tickfont = f2,
+  tickwidth = 2,
+  tickcolor = toRGB("blue")
+)
 fig <- fig %>%
   layout(title = "Profit and loss statement",
-        xaxis = list(title = ""),
-        yaxis = list(title = "in millions of eu"),
+        xaxis = a,
+        yaxis = list(title = "Amount in millions of euros"),
         autosize = TRUE,
         showlegend = TRUE)
 
@@ -44,11 +99,11 @@ return(fig)
 incomestatement19 <- read.csv("cleaneddata/incomestatement19.csv")[-1]
 incomestatement20 <- read.csv("cleaneddata/incomestatement20.csv")[-1]
 
-plot_income_statement(incomestatement19)
+plot_income_statement(incomestatement19,text1)
 ```   
 
 ```{r}
-plot_income_statement(incomestatement20)
+plot_income_statement(incomestatement20,text2)
 ```
 
 ## key figure time series(Wendy)
@@ -65,21 +120,23 @@ balancesheets<-read.csv("cleaneddata/balancesheet.csv")
 balancesheets%>% 
   ggplot(aes(x = al, y = amount, fill = Category)) + 
   geom_col(alpha = 0.8, color = "black") +
-  geom_text(aes(label = str_c(Category, amount, sep = "\n")), position = position_stack(vjust = 0.5), size = 4) + geom_text(data = balancesheets %>% group_by(Year, al) %>% summarise(total = sum(amount)), aes(x = al, y = -900, label = total, fill = "green"), size = 4) +
+  geom_text(aes(label = str_c(Category, amount, sep = "\n")), position = position_stack(vjust = 0.55), size = 4,fontface = "bold") + geom_text(data = balancesheets %>% group_by(Year, al) %>% summarise(total = sum(amount)), aes(x = al, y = -900, label = total, fill = "green"), size = 4) +
   geom_segment(x = 1.5, y = 0, xend = 1.5, yend = 100000, color = "black", size = 1.5) +
   scale_x_discrete(position = "top") +
   scale_fill_brewer(palette = "Spectral") +
   facet_wrap(~ Year) +
   labs(title = "Balance Sheets",
+       subtitle='In million of euros',
        y = "",
        x = "") +
   theme_classic() +
   theme(legend.position = "none",
-        plot.title = element_text(hjust=0.5),
+        plot.title = element_text(hjust=0.5,size=20),
+        plot.subtitle = element_text(hjust=0.5,size=15),
         axis.line.y = element_blank(),
         axis.text.y = element_blank(),
-        axis.text.x = element_text(size=14),
-        strip.text = element_text(size=15),
+        axis.text.x = element_text(size=17),
+        strip.text = element_text(size=17,color='darkblue'),
         axis.ticks = element_blank())
 ```
 
@@ -92,7 +149,13 @@ return<-read.csv("cleaneddata/stockreturn.csv")%>%mutate(Date=ymd(Date))
 returnmar<-return%>%pivot_longer(c('HERMES','LVMH','KERING','S.P500',"CAC40"),names_to='stock',values_to='return')%>%mutate(stock=as.factor(stock))%>%filter(month(Date)==03)
 mins <- returnmar %>% group_by(stock) %>% filter(return == min(return))
 q<-ggplot(returnmar,aes(y=return,x=Date,color=stock))+geom_line(size=0.6)+facet_grid(stock~.)+ggtitle('HERMES Stock Return vs Other in 2020 March')+theme_grey(8)+theme(legend.title=element_blank())+geom_point(data=mins,aes(x=Date,y=return,group=stock),size=1,color='black')+labs(x='',y='')
-ggplotly(q)
+f <- list(
+  family = "Old Standard TT, serif",
+  size = 5,
+  color = "black"
+)
+ggplotly(q,tooltip = c("text", "size"),height=400,width=750)%>%layout(annotations = list(list(x = -0.1 , y = 0.5, text = "Return Rate",font = list(color = "black",size = 15),
+textangle = 270,showarrow = F, xref='paper', yref='paper', size=18)))
 ```
 
 ## Hermes Stock time series vs French Index in 2020
