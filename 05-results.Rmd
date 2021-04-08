@@ -1,11 +1,11 @@
 # Results
 
-```{r}
+```{r fig.height=7.5, fig.width=12}
 library(treemap)
 geo = read.csv('cleaneddata/rev_by_geo_quarterly_2020.csv')
 sec = read.csv('cleaneddata/rev_by_sector_quarterly_2020.csv')
-treemap(geo,  index=c("Year", "Quarter","Region","Country"),vSize="Revenue")
-treemap(sec,  index=c("Year", "Quarter","Sector"),vSize="Revenue")
+treemap(geo,  index=c("Year", "Quarter","Region","Country"),fontsize.labels=c(30,20),  vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))
+treemap(sec,  index=c("Year", "Quarter","Sector"),fontsize.labels=c(30,20),vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))
 ```
 
 ```{r}
@@ -24,6 +24,7 @@ library(stringr)
 library(plotly)
 
 plot_income_statement<- function(incomestatement){
+  
   data = data.frame(x=factor(incomestatement$Category,levels=incomestatement$Category),incomestatement$Measure,y = incomestatement[,2])
 
 fig <- plot_ly(
@@ -31,9 +32,9 @@ fig <- plot_ly(
   x = ~x, textposition = "outside", y= ~y, 
   connector = list(line = list(color= "rgb(63, 63, 63)"))) 
 fig <- fig %>%
-  layout(title = "Profit and loss statement 2018",
+  layout(title = "Profit and loss statement",
         xaxis = list(title = ""),
-        yaxis = list(title = ""),
+        yaxis = list(title = "in millions of eu"),
         autosize = TRUE,
         showlegend = TRUE)
 
@@ -44,7 +45,7 @@ incomestatement19 <- read.csv("cleaneddata/incomestatement19.csv")[-1]
 incomestatement20 <- read.csv("cleaneddata/incomestatement20.csv")[-1]
 
 plot_income_statement(incomestatement19)
-```
+```   
 
 ```{r}
 plot_income_statement(incomestatement20)
