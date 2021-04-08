@@ -59,6 +59,7 @@ clean_sec<- function(path, quarter){
   table$`Sector` = gsub('[[:digit:]]+', '', table$`Sector`)
   table$`2020` = as.numeric(gsub(",", "", table$`2020`
                                  ))
+  table$`Sector`[table$`Sector` %like% "sectors"] = "Other Hermes sectors"
   table$`2019` = as.numeric(table$`2019`)
   table<-table[!(table$Sector %like% "TOTAL" ),]
  
