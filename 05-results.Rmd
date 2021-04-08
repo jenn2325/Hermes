@@ -110,3 +110,55 @@ p <- dygraph(don) %>%dyGroup(c("HERMES", "CAC40"), drawPoints = TRUE, color = c(
   dyRoller(rollPeriod = 1)
 p
 ```
+
+
+## Store Info
+
+```{r}
+library(maps)
+
+store <- read.csv("cleaneddata/storeinfo.csv")[,-1]
+# countries
+countries <- store$Country
+countries.map <- map_data("world", region = countries)
+ 
+region.lab.data <- countries.map %>% 
+  group_by(region) %>%
+  summarise(long = mean(long), lat = mean(lat))
+colnames(store)[1] <- "region"
+hermesdata <- left_join(store, countries.map, by = "region") %>% 
+  mutate(new = as.factor(new))
+newstore <- store[store$new != 0,]
+library(rgeos)
+library(rworldmap)
+
+wmap <- getMap(resolution="high")
+centroids <- gCentroid(wmap, byid=TRUE)
+countrycoords <- as.data.frame(centroids) %>% 
+  filter(rownames(.) %in% c(newstore$region,"United States of America")) %>% 
+  rownames_to_column(var = "region")
+
+countrycoords$region[10] <- "USA"
+newstore <- merge(newstore, countrycoords, by = "region")
+
+
+map <- ggplot() +
+  geom_polygon(data = map_data("world"),aes(x = long, y = lat, group = group, label = region),fill="lightgray", colour = "white")+
+  geom_polygon(data = hermesdata, aes(x = long, y = lat, group = group, fill = number.of.stores, label = region))+
+  #geom_text(aes(label = region), data = region.lab.data,  size = 2, hjust = 0.5)+
+  scale_fill_gradientn(colours =
+                         c("#FFE785","#FFA511","#FF9000","#DA6100","#FF2A22"))+
+  geom_point(data = newstore, aes(x = x, y = y, fill = new,label = region),show.legend = FALSE ,color = "purple")+
+  labs(fill = "# of Stores")+
+  theme(legend.position = "bottom")
+  
+library(plotly)
+ggplotly(map)
+```
+
+
+```{r}
+
+
+```
+
