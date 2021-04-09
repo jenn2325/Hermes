@@ -10,6 +10,7 @@ treemap(sec,  index=c("Year", "Quarter","Sector"),fontsize.labels=c(30,20),vSize
 
 ```{r,fig.height=7,fig.width=10}
 library(ggplot2)
+library(tidyverse)
 sec = read.csv('cleaneddata/rev_by_sector_quarterly_2020.csv')
 sec$Year_Q = paste(sec$Year, sec$Quarter)
 sec<-sec%>%mutate(Sector=as.factor(Sector),Year=as.factor(Year),Year_Q=factor(Year_Q,levels=c('2019 Q1','2019 Q2','2019 Q3','2019 Q4','2020 Q1','2020 Q2','2020 Q3','2020 Q4')))%>%group_by(Year_Q)%>%mutate(percent=round(Revenue*100/sum(Revenue),0),total=sum(Revenue))
@@ -53,7 +54,7 @@ for (i in 1:dim(sec)[1]){
 df = data.frame(sec,pos=pos)
 ggplot(df%>%group_by(Year),aes(x=Year_Q,y=Revenue,fill=Sector)) +scale_fill_brewer(palette = "Set2")+
   geom_bar(stat="identity")+
-  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=5)+theme(axis.title=element_text(size=18))
+  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=5)+theme(axis.title=element_text(size=18),plot.title = element_text(size=20),plot.subtitle = element_text(size=15))
 ```
 
 
@@ -120,7 +121,7 @@ balancesheets<-read.csv("cleaneddata/balancesheet.csv")
 balancesheets%>% 
   ggplot(aes(x = al, y = amount, fill = Category)) + 
   geom_col(alpha = 0.8, color = "black") +
-  geom_text(aes(label = str_c(Category, amount, sep = "\n")), position = position_stack(vjust = 0.55), size = 4,fontface = "bold") + geom_text(data = balancesheets %>% group_by(Year, al) %>% summarise(total = sum(amount)), aes(x = al, y = -900, label = total, fill = "green"), size = 4) +
+  geom_text(aes(label = str_c(Category, amount, sep = "\n")), position = position_stack(vjust = 0.55), size = 3.75,fontface = "bold") + geom_text(data = balancesheets %>% group_by(Year, al) %>% summarise(total = sum(amount)), aes(x = al, y = -900, label = total, fill = "green"), size = 4) +
   geom_segment(x = 1.5, y = 0, xend = 1.5, yend = 100000, color = "black", size = 1.5) +
   scale_x_discrete(position = "top") +
   scale_fill_brewer(palette = "Spectral") +
@@ -200,7 +201,6 @@ centroids <- gCentroid(wmap, byid=TRUE)
 countrycoords <- as.data.frame(centroids) %>% 
   filter(rownames(.) %in% c(newstore$region,"United States of America")) %>% 
   rownames_to_column(var = "region")
-
 countrycoords$region[10] <- "USA"
 newstore <- merge(newstore, countrycoords, by = "region")
 
@@ -208,20 +208,15 @@ newstore <- merge(newstore, countrycoords, by = "region")
 map <- ggplot() +
   geom_polygon(data = map_data("world"),aes(x = long, y = lat, group = group, label = region),fill="lightgray", colour = "white")+
   geom_polygon(data = hermesdata, aes(x = long, y = lat, group = group, fill = number.of.stores, label = region))+
-  #geom_text(aes(label = region), data = region.lab.data,  size = 2, hjust = 0.5)+
+  #geom_text(aes(x=x,y=y,label = number.of.stores), data = newstore,  size = 2, hjust = 0.5)+
   scale_fill_gradientn(colours =
-                         c("#FFE785","#FFA511","#FF9000","#DA6100","#FF2A22"))+
-  geom_point(data = newstore, aes(x = x, y = y, fill = new,label = region),show.legend = FALSE ,color = "purple")+
-  labs(fill = "# of Stores")+
+                         c("#999999", "#009E73", "#56B4E9","#0072B2", "#E69F00", "#D55E00"))+
+  geom_point(data = newstore, aes(x = x, y = y-5, fill = new,group = region,label=number.of.stores),show.legend = FALSE ,color = "purple")+
+  labs(title='Map of Store Location',x='Longitude',y='Latitude',fill = "# of Stores")+
   theme(legend.position = "bottom")
   
 library(plotly)
 ggplotly(map)
 ```
 
-
-```{r}
-
-
-```
 
