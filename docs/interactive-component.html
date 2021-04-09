@@ -165,37 +165,42 @@
             <section class="normal" id="section-">
 <div id="interactive-component" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Interactive component</h1>
-<!DOCTYPE html>
+&lt;!DOCTYPE html&gt;
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>EDAV7_1_axes</title>
-    <script src="https://d3js.org/d3.v6.js"></script>
-  </head>
+<head>
+<meta charset="utf-8">
+<title>
+EDAV7_1_axes
+</title>
+<script src="https://d3js.org/d3.v6.js"></script>
+</head>
+<body>
+<h2>
+Hermès Revenue by Geographical from 2010 to 2020
+</h2>
+<h3>
+(in millions of euros)
+</h3>
+<h4>
+By Year:
+</h4>
+<p>
+<input type="radio" onclick="update(data2010)" name="typeofaction" value="data2010">2010
+<input type="radio" onclick="update(data2011)" name="typeofaction" value="data2011">2011
+<input type="radio" onclick="update(data2012)" name="typeofaction" value="data2012">2012
+<input type="radio" onclick="update(data2013)" name="typeofaction" value="data2013">2013
+<input type="radio" onclick="update(data2014)" name="typeofaction" value="data2014">2014
+<input type="radio" onclick="update(data2015)" name="typeofaction" value="data2015">2015
+<input type="radio" onclick="update(data2016)" name="typeofaction" value="data2016">2016
+<input type="radio" onclick="update(data2017)" name="typeofaction" value="data2017">2017
+<input type="radio" onclick="update(data2018)" name="typeofaction" value="data2018">2018
+<input type="radio" onclick="update(data2019)" name="typeofaction" value="data2019">2019
+<input type="radio" onclick="update(data2020)" name="typeofaction" value="data2020" checked="true">2020
+</p>
+<div>
 
-  <body>
-
-  <h2>Hermès Revenue by Geographical from 2010 to 2020</h2>
-  <h3>(in millions of euros)</h3>
-  <h4>By Year:</h4>
-  <p>
-    <input type="radio" onclick="update(data2010)" name="typeofaction" value="data2010">2010
-    <input type="radio" onclick="update(data2011)" name="typeofaction" value="data2011">2011
-    <input type="radio" onclick="update(data2012)" name="typeofaction" value="data2012">2012
-    <input type="radio" onclick="update(data2013)" name="typeofaction" value="data2013">2013
-    <input type="radio" onclick="update(data2014)" name="typeofaction" value="data2014">2014
-    <input type="radio" onclick="update(data2015)" name="typeofaction" value="data2015">2015
-    <input type="radio" onclick="update(data2016)" name="typeofaction" value="data2016">2016
-    <input type="radio" onclick="update(data2017)" name="typeofaction" value="data2017">2017
-    <input type="radio" onclick="update(data2018)" name="typeofaction" value="data2018">2018
-    <input type="radio" onclick="update(data2019)" name="typeofaction" value="data2019">2019
-    <input type="radio" onclick="update(data2020)" name="typeofaction" value="data2020" checked="true">2020
-  </p>
-  <div>
-    
-  </div>
-  
-  <script>
+</div>
+<script>
 
 // Create svg and initial bars
 
@@ -314,9 +319,7 @@ function update(data) {
 }
 
     </script>
-
-  </body>
-
+</body>
 </html>
 
 </div>
