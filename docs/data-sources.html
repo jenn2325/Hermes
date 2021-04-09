@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Data sources | Hermes 2020 Financial Analysis</title>
-  <meta name="description" content="Chapter 2 Data sources | Hermes 2020 Financial Analysis" />
+  <title>Chapter 2 Data sources | Hermès 2020 Financial Analysis</title>
+  <meta name="description" content="Chapter 2 Data sources | Hermès 2020 Financial Analysis" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Data sources | Hermes 2020 Financial Analysis" />
+  <meta property="og:title" content="Chapter 2 Data sources | Hermès 2020 Financial Analysis" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Data sources | Hermes 2020 Financial Analysis" />
+  <meta name="twitter:title" content="Chapter 2 Data sources | Hermès 2020 Financial Analysis" />
   
   
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Jen Wang, Wenjie Wei and Yinqiu Feng" />
 
 
-<meta name="date" content="2021-03-24" />
+<meta name="date" content="2021-04-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="data-transformation.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -53,6 +53,21 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
+<script src="libs/Dygraph.Plugins.Crosshair-1.0/crosshair.js"></script>
 
 
 
@@ -73,10 +88,60 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#key-figures"><i class="fa fa-check"></i><b>2.1</b> Key Figures</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data-sources.html"><a href="data-sources.html#key-figures-jen"><i class="fa fa-check"></i><b>2.1.1</b> 2019-2020 Key Figures (Jen)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-sources.html"><a href="data-sources.html#first-half2020-key-figures-wendy"><i class="fa fa-check"></i><b>2.1.2</b> First Half2020 Key Figures (Wendy)</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-sources.html"><a href="data-sources.html#key-figures-wendy"><i class="fa fa-check"></i><b>2.1.3</b> 2018-2019 Key Figures (Wendy)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#key-figurewendy"><i class="fa fa-check"></i><b>2.2</b> 2016-2020 key figure(Wendy)</a></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#revenue-by-geographical-area"><i class="fa fa-check"></i><b>2.3</b> Revenue by Geographical Area</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="data-sources.html"><a href="data-sources.html#full-year-revenue-by-geographical-area-jen"><i class="fa fa-check"></i><b>2.3.1</b> 2020 Full Year Revenue by Geographical Area (Jen)</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-sources.html"><a href="data-sources.html#st-quarter-revenue-by-geographical-arearachel"><i class="fa fa-check"></i><b>2.3.2</b> 2020 1st Quarter Revenue by Geographical Area(Rachel)</a></li>
+<li class="chapter" data-level="2.3.3" data-path="data-sources.html"><a href="data-sources.html#nd-quarter-revenue-by-geographical-areawendy"><i class="fa fa-check"></i><b>2.3.3</b> 2020 2nd Quarter Revenue by Geographical Area(Wendy)</a></li>
+<li class="chapter" data-level="2.3.4" data-path="data-sources.html"><a href="data-sources.html#rd-quarter-revenue-by-geographical-arearachel"><i class="fa fa-check"></i><b>2.3.4</b> 2020 3rd Quarter Revenue by Geographical Area(Rachel)</a></li>
+<li class="chapter" data-level="2.3.5" data-path="data-sources.html"><a href="data-sources.html#th-quarter-revenue-by-geographical-arearachel"><i class="fa fa-check"></i><b>2.3.5</b> 2020 4th Quarter Revenue by Geographical Area(Rachel)</a></li>
+<li class="chapter" data-level="2.3.6" data-path="data-sources.html"><a href="data-sources.html#revenue-by-geographical-arearachel"><i class="fa fa-check"></i><b>2.3.6</b> 2010-2020 Revenue by Geographical Area(Rachel)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="data-sources.html"><a href="data-sources.html#revenue-by-sector"><i class="fa fa-check"></i><b>2.4</b> Revenue by Sector</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="data-sources.html"><a href="data-sources.html#full-year-revenue-by-sectorjen"><i class="fa fa-check"></i><b>2.4.1</b> 2020 Full Year Revenue by Sector(Jen)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-sources.html"><a href="data-sources.html#st-quarter-revenue-by-sectorrachel"><i class="fa fa-check"></i><b>2.4.2</b> 2020 1st Quarter Revenue by Sector(Rachel)</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-sources.html"><a href="data-sources.html#nd-quarter-revenue-by-sectorwendy"><i class="fa fa-check"></i><b>2.4.3</b> 2020 2nd Quarter Revenue by Sector(Wendy)</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-sources.html"><a href="data-sources.html#rd-quarter-revenue-by-sectorrachel"><i class="fa fa-check"></i><b>2.4.4</b> 2020 3rd Quarter Revenue by Sector(Rachel)</a></li>
+<li class="chapter" data-level="2.4.5" data-path="data-sources.html"><a href="data-sources.html#th-quarter-revenue-by-sectorrachel"><i class="fa fa-check"></i><b>2.4.5</b> 2020 4th Quarter Revenue by Sector(Rachel)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="data-sources.html"><a href="data-sources.html#financial-statements"><i class="fa fa-check"></i><b>2.5</b> 2020 Financial Statements</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="data-sources.html"><a href="data-sources.html#consolidated-income-statementjen"><i class="fa fa-check"></i><b>2.5.1</b> 2020 Consolidated Income Statement(Jen)</a></li>
+<li class="chapter" data-level="2.5.2" data-path="data-sources.html"><a href="data-sources.html#consolidated-statement-of-comprehensive-incomejen"><i class="fa fa-check"></i><b>2.5.2</b> 2020 Consolidated Statement of Comprehensive Income(Jen)</a></li>
+<li class="chapter" data-level="2.5.3" data-path="data-sources.html"><a href="data-sources.html#consolidated-balance-sheetjen"><i class="fa fa-check"></i><b>2.5.3</b> 2020 Consolidated Balance Sheet(Jen)</a></li>
+<li class="chapter" data-level="2.5.4" data-path="data-sources.html"><a href="data-sources.html#consolidated-statement-of-cash-flowsjen"><i class="fa fa-check"></i><b>2.5.4</b> 2020 Consolidated Statement of Cash Flows(Jen)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="data-sources.html"><a href="data-sources.html#financial-statements-1"><i class="fa fa-check"></i><b>2.6</b> 2019 Financial Statements</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="data-sources.html"><a href="data-sources.html#consolidated-income-statementjen-1"><i class="fa fa-check"></i><b>2.6.1</b> 2019 Consolidated Income Statement(Jen)</a></li>
+<li class="chapter" data-level="2.6.2" data-path="data-sources.html"><a href="data-sources.html#consolidated-statement-of-comprehensive-incomejen-1"><i class="fa fa-check"></i><b>2.6.2</b> 2019 Consolidated Statement of Comprehensive Income(Jen)</a></li>
+<li class="chapter" data-level="2.6.3" data-path="data-sources.html"><a href="data-sources.html#consolidated-balance-sheetjen-1"><i class="fa fa-check"></i><b>2.6.3</b> 2019 Consolidated Balance Sheet(Jen)</a></li>
+<li class="chapter" data-level="2.6.4" data-path="data-sources.html"><a href="data-sources.html#consolidated-statement-of-cash-flowsjen-1"><i class="fa fa-check"></i><b>2.6.4</b> 2019 Consolidated Statement of Cash Flows(Jen)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="data-sources.html"><a href="data-sources.html#store-infowendy"><i class="fa fa-check"></i><b>2.7</b> STORE info(Wendy)</a></li>
+<li class="chapter" data-level="2.8" data-path="data-sources.html"><a href="data-sources.html#stock-infowendy"><i class="fa fa-check"></i><b>2.8</b> Stock Info(Wendy)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#d3-data"><i class="fa fa-check"></i><b>3.1</b> d3 data</a></li>
+<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#treemap-data"><i class="fa fa-check"></i><b>3.2</b> treemap data</a></li>
+<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#income-statement"><i class="fa fa-check"></i><b>3.3</b> Income Statement</a></li>
+<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#balance-sheet-data"><i class="fa fa-check"></i><b>3.4</b> balance Sheet data</a></li>
+<li class="chapter" data-level="3.5" data-path="data-transformation.html"><a href="data-transformation.html#key-figure-data"><i class="fa fa-check"></i><b>3.5</b> key figure data</a></li>
+<li class="chapter" data-level="3.6" data-path="data-transformation.html"><a href="data-transformation.html#stock-data"><i class="fa fa-check"></i><b>3.6</b> stock data</a></li>
+<li class="chapter" data-level="3.7" data-path="data-transformation.html"><a href="data-transformation.html#store-data"><i class="fa fa-check"></i><b>3.7</b> Store Data</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a><ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#key-figure-time-serieswendy"><i class="fa fa-check"></i><b>5.1</b> key figure time series(Wendy)</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#balance-sheet-t-mapwendy"><i class="fa fa-check"></i><b>5.2</b> Balance sheet T map(Wendy)</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#stock-time-series-in-march"><i class="fa fa-check"></i><b>5.3</b> Stock Time Series in March</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#hermes-stock-time-series-vs-french-index-in-2020"><i class="fa fa-check"></i><b>5.4</b> Hermes Stock time series vs French Index in 2020</a></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#store-info"><i class="fa fa-check"></i><b>5.5</b> Store Info</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
@@ -90,7 +155,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Hermes 2020 Financial Analysis</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Hermès 2020 Financial Analysis</a>
           </h1>
         </div>
 
@@ -100,7 +165,182 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
+<div id="key-figures" class="section level2">
+<h2><span class="header-section-number">2.1</span> Key Figures</h2>
+<div id="key-figures-jen" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> 2019-2020 Key Figures (Jen)</h3>
+<pre><code>##                                         Category   2020   2019
+## 1                                        Revenue  6,389  6,883
+## 2       Growth at current exchange rates vs. n-1 -7.2 % 15.4 %
+## 3  Growth at constant exchange rates vs. n-1 (1) -6.0 % 12.4 %
+## 4                 Recurring operating income (2)  1,981  2,339
+## 5                              As a % of revenue 31.0 % 34.0 %
+## 6                               Operating income  2,073  2,339
+## 7                              As a % of revenue 32.4 % 34.0 %
+## 8                       Net profit – Group share  1,385  1,528
+## 9                              As a % of revenue 21.7 % 22.2 %
+## 10                          Operating cash flows  1,993  2,063
+## 11 Investments (excluding financial investments)    448    478
+## 12                   Adjusted free cash flow (3)    995  1,406
+## 13                          Equity – Group share  7,380  6,568
+## 14                         Net cash position (4)  4,717  4,372
+## 15                Restated net cash position (5)  4,904  4,562
+## 16               Workforce (number of employees) 16,600 15,417</code></pre>
+</div>
+<div id="first-half2020-key-figures-wendy" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> First Half2020 Key Figures (Wendy)</h3>
+<pre><code>##                                         rownames H12020 H12019
+## 1                                        Revenue  2,488  3,284
+## 2       Growth at current exchange rates vs. n-1 -24.2%  15.1%
+## 3  Growth at constant exchange rates vs. n-1 (1) -24.9%  12.0%
+## 4                     Recurring operating income    535  1,144
+## 5                              As a % of revenue  21.5%  34.8%
+## 6                               Operating income    535  1,144
+## 7                              As a % of revenue  21.5%  34.8%
+## 8                       Net profit – Group share    335    754
+## 9                              As a % of revenue  13.5%  23.0%
+## 10                          Operating cash flows    634    971
+## 11 Investments (excluding financial investments)    162    170
+## 12                       Adjusted free cash flow     27    618
+## 13                          Equity – Group share  6,340  5,763
+## 14                    IFRS net cash position (4)  3,742  3,532
+## 15                    Restated net cash position  3,922  3,740
+## 16               Workforce (number of employees) 15,698 14,751</code></pre>
+</div>
+<div id="key-figures-wendy" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> 2018-2019 Key Figures (Wendy)</h3>
+<pre><code>##                                         rownames  X2019  X2018
+## 1                                        Revenue  6,883  5,966
+## 2       Growth at current exchange rates vs. n-1  15.4%   7.5%
+## 3    Growth at constant exchange rates vs. n-1 1  12.4%  10.4%
+## 4                   Recurring operating income 2  2,339  2,075
+## 5                              As a % of revenue  34.0%  34.8%
+## 6                               Operating income  2,339  2,128
+## 7                              As a % of revenue  34.0%  35.7%
+## 8                       Net profit – Group share  1,528  1,405
+## 9                              As a % of revenue  22.2%  23.6%
+## 10                          Operating cash flows  2,063  1,863
+## 11 Investments (excluding financial investments)    478    312
+## 12                     Adjusted free cash flow 3  1,406  1,447
+## 13                          Equity – Group share  6,568  5,470
+## 14                      IFRS net cash position 4  4,372  3,465
+## 15                  Restated net cash position 5  4,562  3,615
+## 16               Workforce (number of employees) 15,417 14,284</code></pre>
+</div>
+</div>
+<div id="key-figurewendy" class="section level2">
+<h2><span class="header-section-number">2.2</span> 2016-2020 key figure(Wendy)</h2>
+</div>
+<div id="revenue-by-geographical-area" class="section level2">
+<h2><span class="header-section-number">2.3</span> Revenue by Geographical Area</h2>
+<div id="full-year-revenue-by-geographical-area-jen" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> 2020 Full Year Revenue by Geographical Area (Jen)</h3>
+<pre><code>##                      Country    2020    2019 Published At constant exchange rates
+## 1                     France   619.6   867.3   (28.6)%                    (28.6)%
+## 2      Europe (excl. France)   953.4 1,201.9   (20.7)%                    (20.0)%
+## 3               Total Europe 1,573.0 2,069.1   (24.0)%                    (23.6)%
+## 4                      Japan   833.9   864.0    (3.5)%                     (3.7)%
+## 5 Asia-Pacific (excl. Japan) 2,915.4 2,589.6     12.6%                      14.4%
+## 6                 Total Asia 3,749.3 3,453.6      8.6%                       9.9%
+## 7                   Americas   959.0 1,240.7   (22.7)%                    (20.5)%
+## 8                      Other   108.2   120.0    (9.8)%                     (9.9)%
+## 9                      TOTAL 6,389.4 6,883.4    (7.2)%                     (6.0)%</code></pre>
+</div>
+<div id="st-quarter-revenue-by-geographical-arearachel" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> 2020 1st Quarter Revenue by Geographical Area(Rachel)</h3>
+<pre><code>##          In millions of Euros    2020    2019 Published exchange rates
+## 2                      France   168.9   184.8    (8.6)%         (8.6)%
+## 3       Europe (excl. France)   234.7   261.6   (10.3)%        (11.0)%
+## 4                Total Europe   403.5   446.4    (9.6)%        (10.0)%
+## 5                       Japan   213.6   204.2      4.6%           0.6%
+## 6  Asia-Pacific (excl. Japan)   600.9   655.9    (8.4)%         (9.0)%
+## 7                  Total Asia   814.5   860.1    (5.3)%         (6.7)%
+## 8                    Americas   258.5   269.7    (4.2)%         (6.3)%
+## 9                       Other    29.0    33.5   (13.4)%        (13.5)%
+## 10                      TOTAL 1,505.5 1,609.7    (6.5)%         (7.7)%</code></pre>
+</div>
+<div id="nd-quarter-revenue-by-geographical-areawendy" class="section level3">
+<h3><span class="header-section-number">2.3.3</span> 2020 2nd Quarter Revenue by Geographical Area(Wendy)</h3>
+</div>
+<div id="rd-quarter-revenue-by-geographical-arearachel" class="section level3">
+<h3><span class="header-section-number">2.3.4</span> 2020 3rd Quarter Revenue by Geographical Area(Rachel)</h3>
+</div>
+<div id="th-quarter-revenue-by-geographical-arearachel" class="section level3">
+<h3><span class="header-section-number">2.3.5</span> 2020 4th Quarter Revenue by Geographical Area(Rachel)</h3>
+</div>
+<div id="revenue-by-geographical-arearachel" class="section level3">
+<h3><span class="header-section-number">2.3.6</span> 2010-2020 Revenue by Geographical Area(Rachel)</h3>
+</div>
+</div>
+<div id="revenue-by-sector" class="section level2">
+<h2><span class="header-section-number">2.4</span> Revenue by Sector</h2>
+<div id="full-year-revenue-by-sectorjen" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> 2020 Full Year Revenue by Sector(Jen)</h3>
+<pre><code>##                           Country    2020    2019 Published At constant exchange rates
+## 1    Leather Goods and Saddlery 1 3,209.2 3,414.3    (6.0)%                     (4.8)%
+## 2 Ready-to-Wear and Accessories 2 1,408.9 1,574.2   (10.5)%                     (9.2)%
+## 3               Silk and Textiles   452.0   592.5   (23.7)%                    (22.8)%
+## 4          Other Hermès sectors 3   642.6   524.9     22.4%                      23.9%
+## 5                        Perfumes   263.2   325.9   (19.2)%                    (19.0)%
+## 6                         Watches   195.9   193.4      1.3%                       2.3%
+## 7                Other products 4   217.7   258.2   (15.7)%                    (15.3)%
+## 8                           TOTAL 6,389.4 6,883.4    (7.2)%                     (6.0)%</code></pre>
+</div>
+<div id="st-quarter-revenue-by-sectorrachel" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> 2020 1st Quarter Revenue by Sector(Rachel)</h3>
+</div>
+<div id="nd-quarter-revenue-by-sectorwendy" class="section level3">
+<h3><span class="header-section-number">2.4.3</span> 2020 2nd Quarter Revenue by Sector(Wendy)</h3>
+</div>
+<div id="rd-quarter-revenue-by-sectorrachel" class="section level3">
+<h3><span class="header-section-number">2.4.4</span> 2020 3rd Quarter Revenue by Sector(Rachel)</h3>
+</div>
+<div id="th-quarter-revenue-by-sectorrachel" class="section level3">
+<h3><span class="header-section-number">2.4.5</span> 2020 4th Quarter Revenue by Sector(Rachel)</h3>
+</div>
+</div>
+<div id="financial-statements" class="section level2">
+<h2><span class="header-section-number">2.5</span> 2020 Financial Statements</h2>
+<div id="consolidated-income-statementjen" class="section level3">
+<h3><span class="header-section-number">2.5.1</span> 2020 Consolidated Income Statement(Jen)</h3>
+</div>
+<div id="consolidated-statement-of-comprehensive-incomejen" class="section level3">
+<h3><span class="header-section-number">2.5.2</span> 2020 Consolidated Statement of Comprehensive Income(Jen)</h3>
+</div>
+<div id="consolidated-balance-sheetjen" class="section level3">
+<h3><span class="header-section-number">2.5.3</span> 2020 Consolidated Balance Sheet(Jen)</h3>
+</div>
+<div id="consolidated-statement-of-cash-flowsjen" class="section level3">
+<h3><span class="header-section-number">2.5.4</span> 2020 Consolidated Statement of Cash Flows(Jen)</h3>
+</div>
+</div>
+<div id="financial-statements-1" class="section level2">
+<h2><span class="header-section-number">2.6</span> 2019 Financial Statements</h2>
+<div id="consolidated-income-statementjen-1" class="section level3">
+<h3><span class="header-section-number">2.6.1</span> 2019 Consolidated Income Statement(Jen)</h3>
+</div>
+<div id="consolidated-statement-of-comprehensive-incomejen-1" class="section level3">
+<h3><span class="header-section-number">2.6.2</span> 2019 Consolidated Statement of Comprehensive Income(Jen)</h3>
+</div>
+<div id="consolidated-balance-sheetjen-1" class="section level3">
+<h3><span class="header-section-number">2.6.3</span> 2019 Consolidated Balance Sheet(Jen)</h3>
+</div>
+<div id="consolidated-statement-of-cash-flowsjen-1" class="section level3">
+<h3><span class="header-section-number">2.6.4</span> 2019 Consolidated Statement of Cash Flows(Jen)</h3>
+</div>
+</div>
+<div id="store-infowendy" class="section level2">
+<h2><span class="header-section-number">2.7</span> STORE info(Wendy)</h2>
+</div>
+<div id="stock-infowendy" class="section level2">
+<h2><span class="header-section-number">2.8</span> Stock Info(Wendy)</h2>
+<pre><code>## [1] &quot;RMS.PA&quot;</code></pre>
+<pre><code>## [1] &quot;MC.PA&quot;</code></pre>
+<pre><code>## [1] &quot;^GSPC&quot;</code></pre>
+<pre><code>## [1] &quot;KER.PA&quot;</code></pre>
+<pre><code>## [1] &quot;^FCHI&quot;</code></pre>
 
+</div>
 </div>
             </section>
 
