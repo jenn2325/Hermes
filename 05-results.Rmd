@@ -1,4 +1,5 @@
 # Results
+
 <br>
 From ratio of 2020 in the treemap, we could found that compare with the total revenue of 2019, total revenue of 2020 is slightly smaller than revenue of 2019. From 2019's total revenue, we find people tend to spend lesser on quarter 1 and quarter 2 than rest quarter. It also happened on 2020. However thre ratio of first two quarter to last two quarter decrease tremendously. Therefore we can infer that the decreases on fiset two quarter influenced by Covid-19 which started at 2020. And we also knew that the customer's purchase recovery since third quarter and even larger that third and fourth quarter in 2019.
 <br/>
@@ -73,7 +74,7 @@ for (i in 1:dim(sec)[1]){
 df = data.frame(sec,pos=pos)
 ggplot(df%>%group_by(Year),aes(x=Year_Q,y=Revenue,fill=Sector)) +scale_fill_brewer(palette = "Set2")+
   geom_bar(stat="identity")+
-  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=3)+theme(axis.title=element_text(size=16),plot.title = element_text(size=18),plot.subtitle = element_text(size=14))
+  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=3)+theme(axis.title.y=element_text(angle=90,size=14),axis.title.x=element_text(size=14),plot.title = element_text(size=16),plot.subtitle = element_text(size=14))
 ```
 <br>
 By inspecting into the stack bar chart, we can verified the information from treemap that the revenue of first two quarter in 2020 decreases tremendously compared to  the revenue of first two quarter in 2019, expecially second quarter. And the revenue percentage of each sector is relative stable except we found on bar chart that silk took lesser portion in 2020 second quarter and leather good took higher portion at that time.<br/>
@@ -257,8 +258,5 @@ ggplotly(map)
 ```
 <br>
 This map is designed to give a better interpretation of Hermes store distribution around the world. You can click any region you want to know and zoom in to take a more clear look at the data. You can also put the cursor on the location, it show all the data about that location. All purple points indicate the regions that have new stores open in 2020. From the map, we find that USA, Japan and China are the regions that have the most stores (each has more than 35 stores). This might be one of the reasons that the sale of Hermes mainly comes from America and Asia Pacific. One interesting thing that France, as the home country the Hermes brand is based in, has 29 stores, which is less than the top 3 regions we discussed before. This might reflects that the purchasing power attracts the brand more than anything else. Also, we can discover that there are still lots of regions that Hermes has not stepped on. The number of Hermes stores reflects the economy or the size of millionaires in the specific country, which is consistent with the luxury brand of nature.
-<br>
-
- brand of nature.
 <br>
 
