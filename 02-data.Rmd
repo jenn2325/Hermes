@@ -117,7 +117,7 @@ write.csv(my_data,"rawdata/2010_to_2020_Rev_Geo.csv")
 **2. Store Allocation**
 <br>
 2. Store Allocation 
-We crapped global Hermès store allocation data from *****. Since our focus is on Hermès’ performance in 2020, we also collected data of new stores that was opened in year 2020.
+We crapped global Hermès store allocation data from 2020 Universal Document. Since our focus is on Hermès’ performance in 2020, we also collected data of new stores that was opened in year 2020.
 
 ```{r}
 ### STORE info(Wendy)

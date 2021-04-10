@@ -74,7 +74,7 @@ for (i in 1:dim(sec)[1]){
 df = data.frame(sec,pos=pos)
 ggplot(df%>%group_by(Year),aes(x=Year_Q,y=Revenue,fill=Sector)) +scale_fill_brewer(palette = "Set2")+
   geom_bar(stat="identity")+
-  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=3)+theme(axis.title.y=element_text(angle=90,size=14),axis.title.x=element_text(size=14),plot.title = element_text(size=16),plot.subtitle = element_text(size=14))
+  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=3)+theme(axis.title.y=element_text(angle=90,size=14),axis.title.x=element_text(size=14),plot.title = element_text(size=16),plot.subtitle = element_text(size=14), legend.text = element_text(size = 6))
 ```
 <br>
 By inspecting into the stack bar chart, we can verified the information from treemap that the revenue of first two quarter in 2020 decreases tremendously compared to  the revenue of first two quarter in 2019, expecially second quarter. And the revenue percentage of each sector is relative stable except we found on bar chart that silk took lesser portion in 2020 second quarter and leather good took higher portion at that time.<br/>
