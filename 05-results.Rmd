@@ -1,14 +1,33 @@
 # Results
-
+<br>
+From ratio of 2020 in the treemap, we could found that compare with the total revenue of 2019, total revenue of 2020 is slightly smaller than revenue of 2019. From 2019's total revenue, we find people tend to spend lesser on quarter 1 and quarter 2 than rest quarter. It also happened on 2020. However thre ratio of first two quarter to last two quarter decrease tremendously. Therefore we can infer that the decreases on fiset two quarter influenced by Covid-19 which started at 2020. And we also knew that the customer's purchase recovery since third quarter and even larger that third and fourth quarter in 2019.
+<br/>
 ```{r fig.height=7.5, fig.width=12}
 library(treemap)
 geo = read.csv('cleaneddata/rev_by_geo_quarterly_2020.csv')
 sec = read.csv('cleaneddata/rev_by_sector_quarterly_2020.csv')
 treemap(geo,  index=c("Year", "Quarter","Region","Country"),fontsize.labels=c(30,20),  vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))
+
+```
+<br>
+we plot a treemap on Revenue on both 2019 and 2020 where each smaller rectangle represents the revenue ratio of certain region of one quarter in 2019 and 2020. From the graoh, we can find that the total revenue of 2020 is slightly smaller than 2019 and compared with 2019, first two quarter, especially second quarter, have lesser revenue than usual. 
+<br/>
+<br>
+From the prespective, Asia except Japan takes largest potion of total revenue in every quarter and has been influened smaller during first two quarter in 2020. Since the size of Asia except Japan at 2020 first two quarter is similiar as that at 2019 first two quarter and the size of Asia except Japan at 2020 last two quarter is larger than that at 2019 last two quarter. Their consupmtion might be the main reason for increase on last quarter on 2020.
+<br/>
+```{r fig.height=7.5, fig.width=12}
 treemap(sec,  index=c("Year", "Quarter","Sector"),fontsize.labels=c(30,20),vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))
 ```
 
-```{r,fig.height=7,fig.width=10}
+
+<br>
+In order to figure out which sector of Hermes product makes higher revenue and if the Covid influences any of sectors, we plot a treemap on Revenue on both 2019 and 2020 where each smaller rectangle represents the revenue ratio of certain sector of one quarter in 2019 and 2020. The reason we also divided data by quarter is that we want to eliminate the quarterly change of people spending on different sector. 
+<br/>
+<br>
+Looking at the sectors, Leather good and Saddlery is the main revenue amoung all the sector and Cloth is the second largest source of revenue. The portion of each sector's revenue maintains in a relative steady status which did not influenced by Covid-19 period. 
+<br/>
+
+```{r}
 library(ggplot2)
 library(tidyverse)
 sec = read.csv('cleaneddata/rev_by_sector_quarterly_2020.csv')
@@ -54,9 +73,13 @@ for (i in 1:dim(sec)[1]){
 df = data.frame(sec,pos=pos)
 ggplot(df%>%group_by(Year),aes(x=Year_Q,y=Revenue,fill=Sector)) +scale_fill_brewer(palette = "Set2")+
   geom_bar(stat="identity")+
-  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=5)+theme(axis.title=element_text(size=18),plot.title = element_text(size=20),plot.subtitle = element_text(size=15))
+  ggtitle("Revenue by sector from 2019 to 2020",subtitle = 'Quaterly') + ylab("Revenue in million of euros")+xlab("Year Quaterly")+geom_text(aes(y=pos,label=paste(percent, "%")),size=3)+theme(axis.title=element_text(size=16),plot.title = element_text(size=18),plot.subtitle = element_text(size=14))
 ```
-
+<br>
+By inspecting into the stack bar chart, we can verified the information from treemap that the revenue of first two quarter in 2020 decreases tremendously compared to  the revenue of first two quarter in 2019, expecially second quarter. And the revenue percentage of each sector is relative stable except we found on bar chart that silk took lesser portion in 2020 second quarter and leather good took higher portion at that time.<br/>
+<br>
+From revenue of Hermes before, during and after Covid, we can get little insight about the treasure of upper class. Since Hermes is the extreme luxury brand which mainly purchase by upper class. It seems like the Covid-19 only restrict the purchase of upper class during Covid-19 which might cause by the inconvinence of clousure. Since the revenues increases after covid-19 exposure period and made up at third quarter and forth quarter. The upper class in Asia got smallest negative effect. And we also know that the portion of each sector keeps a constant ratio and the ratio did not changed by quarter and Covid.
+<br/>
 
 ```{r}
 library(tidyverse)
@@ -106,6 +129,9 @@ plot_income_statement(incomestatement19,text1)
 ```{r}
 plot_income_statement(incomestatement20,text2)
 ```
+<br>
+Here is the income statement of Hermes in 2019 and 2020. In 2019, the total Revenue of Hermes is 6900 millions of eu whereas the total Revenue in 2020 is 6400 millions of eu. And the net income of Hermes in 2019 is 1500 millions of eu whereas net income of Hermes in 2020 is 1380 millions of eu. From the overal income statement we can know that two main cost of Hermes are sales expense and S&A expense (Selling, marketing and administrative expenses). During 2020, Hermes shrinks their Selling, marketing and administrative expenses from 2940 to 2670 and reduce a little bit sales expense which are not influenced by closure during Covid
+<br>
 
 ## key figure time series(Wendy)
 ```{r}
@@ -113,7 +139,10 @@ keyfigure<-read.csv("cleaneddata/keyfigures2016_2020.csv")
 library(viridis)
 ggplot(keyfigure,aes(x=Year,y=value,color=Category,group=Category))+geom_line()+scale_color_viridis(discrete = TRUE)+labs(title='3 Key figures we need to pay attention with',y='index')
 ```
-
+<br>
+This plot shows the trend of the Hermes performance from some perspectives in Years 2016 to 2020.
+It is very clear that there is an upward trend for both Revenue and Recurring operating income before 2020. However, we can also mention that there is a sudden drop from in 2020 for these two factors because of Covid-19. In the meantime, the workforce keeps the upward trending all the time. It might reflects the confident expectation of the company 
+<br>
 
 ## Balance sheet T map(Wendy)
 ```{r,fig.height=7.5,fig.width=12} 
@@ -140,10 +169,12 @@ balancesheets%>%
         strip.text = element_text(size=17,color='darkblue'),
         axis.ticks = element_blank())
 ```
-
+<br>
+In plot above, there is a gradual increase for both asset and liabilities when year passed. The huge increase on stockholder equity should be attributed to the increase of assets. Owners' equity, referred to as shareholders' equity, is the amount of money initially invested into the company plus any retained earnings, and it represents a source of funding for the business. And it is the difference between total asset and liability. Therefore we can see the balance between asset and liability. We can easily get access to the total for both sides on bottom of the plot. One thing that catch our attention should be the decrease of current liabilities in year 2020, which is a good sign of the brand performance. Since the assets increased in 2020, the drop of current liabilities may provide more benefits to the shareholders.
+<br>
 
 ## Stock Time Series in March
-```{r,fig.width=15,fig.height=13}
+```{r}
 library(plotly)
 library(lubridate)
 return<-read.csv("cleaneddata/stockreturn.csv")%>%mutate(Date=ymd(Date))
@@ -158,7 +189,9 @@ f <- list(
 ggplotly(q,tooltip = c("text", "size"),height=400,width=750)%>%layout(annotations = list(list(x = -0.1 , y = 0.5, text = "Return Rate",font = list(color = "black",size = 15),
 textangle = 270,showarrow = F, xref='paper', yref='paper', size=18)))
 ```
-
+<br>
+From above time series, we can discuss the pandemic impact on Hermes and worldwide stock market. We could observe that the impact on the other major luxury brands' stock return was much more ferocious than the impact on the Hermes one. Also, as the Hermes stock is only traded in French stock market, we should expect it has similar fluctuation with the CAC40 (the french stock index). Among all the french stock including the index, it took the minimal tumble on the March 11th, which was the time the world wide stock market took a sharp tumble. I also include the S&P500 index in the plot as the marker of global stock market. 
+<br>
 ## Hermes Stock time series vs French Index in 2020
 ```{r}
 library(xts)
@@ -174,7 +207,11 @@ p <- dygraph(don) %>%dyGroup(c("HERMES", "CAC40"), drawPoints = TRUE, color = c(
   dyRoller(rollPeriod = 1)
 p
 ```
-
+<br>
+To give a more comprehensive understanding, here I attached with the time series of both Hermes and CAC40 on the entire 2020 year. If you want to track the time series in a specific time range, please drag the button on the plot under the time series. You can easily set the bound of time by drag the right button and the left one. 
+<br>
+From the entire year time series, we could also observe that the hermes return rate fluctuated with in a narrower range during most of the time. In a more straightforward way, the HERMES stock was more steady, as comparing to other stocks in French stock market. 
+<br>
 
 ## Store Info
 
@@ -218,5 +255,10 @@ map <- ggplot() +
 library(plotly)
 ggplotly(map)
 ```
+<br>
+This map is designed to give a better interpretation of Hermes store distribution around the world. You can click any region you want to know and zoom in to take a more clear look at the data. You can also put the cursor on the location, it show all the data about that location. All purple points indicate the regions that have new stores open in 2020. From the map, we find that USA, Japan and China are the regions that have the most stores (each has more than 35 stores). This might be one of the reasons that the sale of Hermes mainly comes from America and Asia Pacific. One interesting thing that France, as the home country the Hermes brand is based in, has 29 stores, which is less than the top 3 regions we discussed before. This might reflects that the purchasing power attracts the brand more than anything else. Also, we can discover that there are still lots of regions that Hermes has not stepped on. The number of Hermes stores reflects the economy or the size of millionaires in the specific country, which is consistent with the luxury brand of nature.
+<br>
 
+ brand of nature.
+<br>
 
