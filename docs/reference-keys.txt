@@ -43,7 +43,6 @@ results
 key-figure-time-serieswendy
 balance-sheet-t-mapwendy
 stock-time-series-in-march
-hermes-stock-time-series-vs-french-index-in-2020
 store-info
 interactive-component
 conclusion
