@@ -131,6 +131,8 @@ plot_income_statement(incomestatement19,text1)
 plot_income_statement(incomestatement20,text2)
 ```
 <br>
+This plot idea comes from this [website](https://plotly.com/r/waterfall-charts/).
+<br>
 Here is the income statement of Hermes in 2019 and 2020. In 2019, the total Revenue of Hermes is 6900 millions of eu whereas the total Revenue in 2020 is 6400 millions of eu. And the net income of Hermes in 2019 is 1500 millions of eu whereas net income of Hermes in 2020 is 1380 millions of eu. From the overal income statement we can know that two main cost of Hermes are sales expense and S&A expense (Selling, marketing and administrative expenses). During 2020, Hermes shrinks their Selling, marketing and administrative expenses from 2940 to 2670 and reduce a little bit sales expense which are not influenced by closure during Covid
 <br>
 
@@ -171,6 +173,8 @@ balancesheets%>%
         axis.ticks = element_blank())
 ```
 <br>
+This plot idea comes from this [GitHub repo](https://gist.github.com/mgei/14e44b7121fcee18f3809cf4bfd1af71)
+<br>
 In plot above, there is a gradual increase for both asset and liabilities when year passed. The huge increase on stockholder equity should be attributed to the increase of assets. Owners' equity, referred to as shareholders' equity, is the amount of money initially invested into the company plus any retained earnings, and it represents a source of funding for the business. And it is the difference between total asset and liability. Therefore we can see the balance between asset and liability. We can easily get access to the total for both sides on bottom of the plot. One thing that catch our attention should be the decrease of current liabilities in year 2020, which is a good sign of the brand performance. Since the assets increased in 2020, the drop of current liabilities may provide more benefits to the shareholders.
 <br>
 
@@ -181,16 +185,17 @@ library(lubridate)
 return<-read.csv("cleaneddata/stockreturn.csv")%>%mutate(Date=ymd(Date))
 returnmar<-return%>%pivot_longer(c('HERMES','LVMH','KERING','S.P500',"CAC40"),names_to='stock',values_to='return')%>%mutate(stock=as.factor(stock))%>%filter(month(Date)==03)
 mins <- returnmar %>% group_by(stock) %>% filter(return == min(return))
-q<-ggplot(returnmar,aes(y=return,x=Date,color=stock))+geom_line(size=0.6)+facet_grid(stock~.)+ggtitle('HERMES Stock Return vs Other in 2020 March')+theme_grey(8)+theme(legend.title=element_blank())+geom_point(data=mins,aes(x=Date,y=return,group=stock),size=1,color='black')+labs(x='',y='')
+q<-ggplot(returnmar,aes(y=return,x=Date,color=stock))+geom_line(size=0.6)+facet_grid(stock~.)+ggtitle('HERMES Stock Return vs Other in 2020 March')+theme_grey(8)+theme(legend.title=element_blank())+geom_point(data=mins,aes(x=Date,y=return,group=stock),size=1,color='black',text=return,label=Date)+labs(x='',y='')
 f <- list(
   family = "Old Standard TT, serif",
   size = 5,
   color = "black"
 )
-ggplotly(q,tooltip = c("text", "size"),height=400,width=750)%>%layout(annotations = list(list(x = -0.1 , y = 0.5, text = "Return Rate",font = list(color = "black",size = 15),
+ggplotly(q,height=400,width=750)%>%layout(annotations = list(list(x = -0.1 , y = 0.5, text = "Return Rate",font = list(color = "black",size = 15),
 textangle = 270,showarrow = F, xref='paper', yref='paper', size=18)))
 ```
 <br>
+This interactive time series plot can provide the chance to see the data value on each date. You can either put the cursor on the point you would like to know or drag a specific time range that you want to observe. 
 From above time series, we can discuss the pandemic impact on Hermes and worldwide stock market. We could observe that the impact on the other major luxury brands' stock return was much more ferocious than the impact on the Hermes one. Also, as the Hermes stock is only traded in French stock market, we should expect it has similar fluctuation with the CAC40 (the french stock index). Among all the french stock including the index, it took the minimal tumble on the March 11th, which was the time the world wide stock market took a sharp tumble. I also include the S&P500 index in the plot as the marker of global stock market. 
 <br>
 ## Hermes Stock time series vs French Index in 2020
@@ -212,6 +217,7 @@ p
 To give a more comprehensive understanding, here I attached with the time series of both Hermes and CAC40 on the entire 2020 year. If you want to track the time series in a specific time range, please drag the button on the plot under the time series. You can easily set the bound of time by drag the right button and the left one. 
 <br>
 From the entire year time series, we could also observe that the hermes return rate fluctuated with in a narrower range during most of the time. In a more straightforward way, the HERMES stock was more steady, as comparing to other stocks in French stock market. 
+See this plot from R gallery:https://www.r-graph-gallery.com/318-custom-dygraphs-time-series-example.html 
 <br>
 
 ## Store Info

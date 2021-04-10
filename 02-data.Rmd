@@ -8,7 +8,8 @@ Quarterly and annually revenue analysis by geographical area in fiscal year 2019
 
 ```{r}
 ### 2020 Full Year Revenue by Geographical Area (Jen)
-
+library(pdftools)
+library(tidyverse)
 PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
   read_lines()
 PDF <- PDF[162:173]
@@ -42,6 +43,7 @@ write.csv(geo_first,"rawdata/2020_Q1_Rev_Geo.csv")
 
 ```{r}
 ### 2020 2nd Quarter Revenue by Geographical Area(Wendy)
+PDF1 <- pdf_text("Resources/hermes_1hresults2020_va.pdf") %>%readr::read_lines()
 PDF1.geo<-PDF1[c(179:187)]
 c<-PDF1.geo%>%str_squish()%>%strsplit(split = " ")
 c<-c[-c(4,13,17)]
@@ -200,8 +202,7 @@ The Key Figures table in Hermès’ quarterly and annually reports include impor
 
 ```{r}
 ### 2019-2020 Key Figures (Jen)
-library(pdftools)
-library(tidyverse)
+
 PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
   read_lines()
 PDF <- PDF[-c(1:120)]
@@ -219,7 +220,7 @@ colnames(key_figutres.20) <- var_lines
 
 ```{r}
 ### First Half2020 Key Figures (Wendy)
-PDF1 <- pdf_text("Resources/hermes_1hresults2020_va.pdf") %>%readr::read_lines()
+
 PDF1.table <-PDF1[c(131:149)]
 b<-PDF1.table%>%str_squish()%>%strsplit(split = " ")
 b<-b[-c(4,13,17)]
@@ -467,7 +468,7 @@ getSymbols("KER.PA", from="2020-01-01",to='2021-01-01')
 keringstock<-as.data.frame(Cl(KER.PA))%>%tibble::rownames_to_column("date")
 write.csv(keringstock, "rawdata/KERING_stock_info.csv")
 ## CAC40 FRENCH INDEX
-getSymbols("^FCHI", from = "2010-01-01",to='2021-01-01')
+getSymbols("^FCHI", from = "2020-01-01",to='2021-01-01')
 CAC40i<-as.data.frame(Cl(FCHI))%>%tibble::rownames_to_column("date")
 write.csv(CAC40i, "rawdata/CAC40_stock_info.csv")
 ```
