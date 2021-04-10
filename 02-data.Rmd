@@ -1,121 +1,14 @@
 # Data sources
 
-## Key Figures
+We obtained the data mainly from [Hermès Finance Website](https://finance.hermes.com/en/). Since our primary focus was how an unprecedented health and economic crisis in 2020 effect Hermès performance, we pays more attention on comparing Hermès’ data in 2019 and in 2020. From Hermès’ Annual Reports and Quarterly Reports, we were able to gather Hermès’ Revenue Analysis, Store Allocation as well as Financial Statements:
 
-### 2019-2020 Key Figures (Jen)
+**1. Revenue by Geographical Area**
+<br>
+Quarterly and annually revenue analysis by geographical area in fiscal year 2019 and 2020 divide the total revenue into Europe(France and the rest of Europe), Asia(Japan and the rest of Asia), Americas and Other.
+
 ```{r}
-library(pdftools)
-library(tidyverse)
-PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
-  read_lines()
-PDF <- PDF[-c(1:120)]
-key_figutres.20 <- PDF[2:18]
-all_stat_lines <- key_figutres.20[2:17] %>%
-  strsplit(split = "\\s{2,}")
-
-var_lines <- c("Category", "2020", "2019")
-key_figutres.20 <- plyr::ldply(all_stat_lines)
-colnames(key_figutres.20) <- var_lines 
-write.csv(key_figutres.20,"rawdata/2020_key_figures.csv")
-key_figutres.20
-```
-
-
-### First Half2020 Key Figures (Wendy)
-```{r}
-PDF1 <- pdf_text("Resources/hermes_1hresults2020_va.pdf") %>%readr::read_lines()
-PDF1.table <-PDF1[c(131:149)]
-b<-PDF1.table%>%str_squish()%>%strsplit(split = " ")
-b<-b[-c(4,13,17)]
-get_variable1<-function(a){
-  variable_name<-c()
-  len<-c()
-  for(i in 1:length(a)){
-    len[i]<-length(a[[i]])
-    variable_name[i]<-paste(a[[i]][-c((len[i]-2):len[i])],collapse=' ')
-  }
-  return(variable_name)
-}
-h1data2019<-function(a){
-  data<-c()
-  for (i in 1:length(a)){
-    data[i]<-a[[i]][(length(a[[i]]))]
-  }
-  return(data)
-}
-h1data2020<-function(a){
-  data<-c()
-  for (i in 1:length(a)){
-    data[i]<-a[[i]][(length(a[[i]])-2)]
-  }
-  return(data)
-}
-key2020h1 <- data.frame('rownames'=get_variable1(b),'H12020'=h1data2020(b),'H12019'=h1data2019(b))
-write.csv(key2020h1,"rawdata/2020_Half_Year_key_figures.csv")
-key2020h1
-```
-
-
-### 2018-2019 Key Figures (Wendy)
-```{r}
-PDF <- pdf_text("Resources/hermes_20200423_CA1T_en.pdf") %>%
-readr::read_lines()
-PDF.table <-PDF[c(151:168)] 
-a<-PDF.table[-c(1:2)]%>%str_squish()%>%strsplit(split = " ")
-get_variable<-function(a){
-  variable_name<-c()
-  len<-c()
-  for(i in 1:length(a)){
-    len[i]<-length(a[[i]])
-    variable_name[i]<-paste(a[[i]][-c((len[i]-1):len[i])],
-                            collapse=' ')
-  }
-  return(variable_name)
-}
-data2019<-function(a){
-  data<-c()
-  for (i in 1:length(a)){
-    data[i]<-a[[i]][(length(a[[i]])-1)]
-  }
-  return(data)
-}
-data2018<-function(a){
-  data<-c()
-  for (i in 1:length(a)){
-    data[i]<-a[[i]][(length(a[[i]]))]
-  }
-  return(data)
-}
-key2019 <- data.frame('rownames'=get_variable(a),'2019'=data2019(a),'2018'=data2018(a))
-key2019
-write.csv(key2019,"rawdata/2019_key_figures.csv")
-```
-
-## 2016-2020 key figure(Wendy)
-```{r}
-library(pdftools)
-library(tidyverse)
-info <- pdf_text("Resources/key figure info.pdf") %>%
-  read_lines()
-info<-info[23:39]
-keyinfo<- info[2:17] %>%
-  strsplit(split = "\\s{2,}")
-for (i in 1:16){
-  keyinfo[[i]]<-keyinfo[[i]][2:7]
-}
-var <- c("Category", "2020", "2019","2018","2017","2016")
-key_figures.1620 <- plyr::ldply(keyinfo)
-result1620<-as.matrix(key_figures.1620)
-result1620<-result1620%>%str_replace("[()]",'-')%>%str_replace("[()]",'')%>%str_replace("\\,",'')
-key_figures.1620<-as.data.frame(matrix(data=result1620,16,6))
-colnames(key_figures.1620) <- var
-write.csv(key_figures.1620,"rawdata/2016_2020_key_figures.csv")
-```
-
-## Revenue by Geographical Area
-
 ### 2020 Full Year Revenue by Geographical Area (Jen)
-```{r}
+
 PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
   read_lines()
 PDF <- PDF[162:173]
@@ -125,12 +18,12 @@ georaphical_rev_20 <- PDF[3:11] %>%
   plyr::ldply()
 georaphical_rev_20 <- georaphical_rev_20[,-1]
 colnames(georaphical_rev_20) <- c("Country", "2020","2019","Published","At constant exchange rates")
-georaphical_rev_20
 write.csv(georaphical_rev_20,"rawdata/2020_Rev_Geo.csv")
 ```
 
-### 2020 1st Quarter Revenue by Geographical Area(Rachel)
+
 ```{r}
+### 2020 1st Quarter Revenue by Geographical Area(Rachel)
 get_quarter <-function(url, pages, lines){
   library(pdftables)
   download.file(url, "PDF", mode = "wb")
@@ -143,12 +36,12 @@ get_quarter <-function(url, pages, lines){
 }
 url1 = "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-06/hermes_20200423_CA1T_en.pdf"
 geo_first = get_quarter(url1, c(4), c(4:13))
-geo_first
 write.csv(geo_first,"rawdata/2020_Q1_Rev_Geo.csv")
 ```
 
-### 2020 2nd Quarter Revenue by Geographical Area(Wendy)
+
 ```{r}
+### 2020 2nd Quarter Revenue by Geographical Area(Wendy)
 PDF1.geo<-PDF1[c(179:187)]
 c<-PDF1.geo%>%str_squish()%>%strsplit(split = " ")
 c<-c[-c(4,13,17)]
@@ -194,31 +87,68 @@ write.csv(secgeo,"rawdata/2020_Q2_Rev_Geo.csv")
 ```   
 
 
-### 2020 3rd Quarter Revenue by Geographical Area(Rachel)
+
 ```{r}
+### 2020 3rd Quarter Revenue by Geographical Area(Rachel)
 url3="https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-10/1603296703/hermes_20201022_ca3t20_en.pdf"
 geo_third = get_quarter(url3, c(4), c(16:25))
 write.csv(geo_third,"rawdata/2020_Q3_Rev_Geo.csv")
 ```
 
-### 2020 4th Quarter Revenue by Geographical Area(Rachel)
+
 ```{r}
+### 2020 4th Quarter Revenue by Geographical Area(Rachel)
 url4 = "https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2021-02/1613734103/hermes_20210219_results2020_en.pdf"
 geo_fourth = get_quarter(url4, c(6), c(17:26))[,-1]
 write.csv(geo_fourth,"rawdata/2020_Q4_Rev_Geo.csv")
 ```
-### 2010-2020  Revenue by Geographical Area(Rachel)
+
+
+
 ```{r}
+### 2010-2020 Revenue by Geographical Area(Rachel)
 library("readxl")
 my_data <- read_excel("Resources/statistic_id245925_revenue-of-hermes-worldwide-2010-2020-by-geographical-region.xlsx")
 write.csv(my_data,"rawdata/2010_to_2020_Rev_Geo.csv")
 ```
 
+**2. Store Allocation**
+<br>
+2. Store Allocation 
+We crapped global Hermès store allocation data from *****. Since our focus is on Hermès’ performance in 2020, we also collected data of new stores that was opened in year 2020.
 
-## Revenue by Sector
-
-### 2020 Full Year Revenue by Sector(Jen)
 ```{r}
+### STORE info(Wendy)
+store<-pdf_text("Resources/Store location.pdf")%>%
+  read_lines()
+strstore<-str_extract(store, "[:alpha:]\\:\\s[:digit:]")
+index<-which(!is.na(strstore))
+storecountry<-store[index[-1]]%>%strsplit(split = "\\s{2,}")
+str2<-c()
+k<-c()
+for (i in 1:length(storecountry)){
+  str2<-str_extract(storecountry[[i]],"\\w\\:\\s\\d+")
+  index2<-which(!is.na(str2))
+  str_country<-storecountry[[i]][index2]
+  l<-storecountry[[i]][index2]
+  k<-c(k,l)
+}
+
+df<-data.frame(k)
+store_info <- df%>%separate(k,c('Country','number of stores'),": ")
+new<-c(0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,2,0,0,0,0,0,2,1,1,0,0,2,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0)
+store_info <- cbind(store_info,new)
+write.csv(store_info,"rawdata/Storeinfo.csv")
+```
+
+
+
+**3. Revenue by Sector**
+<br>
+Quarterly and annually revenue analysis by sector in fiscal year 2019 and 2020 divide the total revenue into seven business sectors: Leather Goods and Saddlery, Ready-to-Wear and Accessories, Silk and Textiles, Other Hermès sectors (Jewelry and  home products), Perfumes, Watches as well as Other products (Sub-brand products). As we all know Hermès focuses on exclusivity, scarcity, craftsmanship with it’s renowned  “Anti Marketing” strategy, customers are required to establish a solid purchase history before getting a Hermès handbag (Birkin, Kelly, Constance and etc.). Revenue by sector analysis gives us a sense of how much an average customer need to spend in Hermès’ non leather goods in order to get a Hermès bag.
+
+```{r}
+### 2020 Full Year Revenue by Sector(Jen)
 PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
   read_lines()
 PDF <- PDF[194:202]
@@ -227,19 +157,20 @@ sector_rev_20 <- PDF[2:9] %>%
   plyr::ldply()
 sector_rev_20 <- sector_rev_20[,-1]
 colnames(sector_rev_20) <- c("Country", "2020","2019","Published","At constant exchange rates")
-sector_rev_20
 write.csv(sector_rev_20, "rawdata/2020_Rev_Sector.csv")
 ```
 
-### 2020 1st Quarter Revenue by Sector(Rachel)
+
 ```{r}
+### 2020 1st Quarter Revenue by Sector(Rachel)
 sector_first = get_quarter(url1, c(4), c(19:27))
 write.csv(sector_first,"rawdata/2020_Q1_Rev_Sector.csv")
 ```
 
 
-### 2020 2nd Quarter Revenue by Sector(Wendy)
+
 ```{r}
+### 2020 2nd Quarter Revenue by Sector(Wendy)
 PDF1.sec<-PDF1[c(207:214)]
 d<-PDF1.sec%>%str_squish()%>%strsplit(split = " ")
 d<-d[-c(4,13,17)]
@@ -247,26 +178,144 @@ secsector<-data.frame('Sector'=get_variable2(d),'2nd2020'=secdata2020(d),'2nd201
 write.csv(secsector,"rawdata/2020_Q2_Rev_Sector.csv")
 ```
 
-### 2020 3rd Quarter Revenue by Sector(Rachel)
+
 ```{r}
+### 2020 3rd Quarter Revenue by Sector(Rachel)
 sector_third = get_quarter(url3, c(5),c(15:23))
 write.csv(sector_third,"rawdata/2020_Q3_Rev_Sector.csv")
 ```
 
 
-### 2020 4th Quarter Revenue by Sector(Rachel)
+
 ```{r}
+### 2020 4th Quarter Revenue by Sector(Rachel)
 sector_fourth = get_quarter(url4, c(7), c(16:24))[,-1]
 write.csv(sector_fourth,"rawdata/2020_Q4_Rev_Sector.csv")
 ```
 
 
-## 2020 Financial Statements
-
-### 2020 Consolidated Income Statement(Jen)
+**4. Key Figures**
+<br>
+The Key Figures table in Hermès’ quarterly and annually reports include important variables that illustrate Hermès’ performance such as recurring operating income, number of employees, equity and etc. We would like to see if there is any variable shows interesting pattern from 2019 to 2020.
 
 ```{r}
+### 2019-2020 Key Figures (Jen)
+library(pdftools)
+library(tidyverse)
+PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
+  read_lines()
+PDF <- PDF[-c(1:120)]
+key_figutres.20 <- PDF[2:18]
+all_stat_lines <- key_figutres.20[2:17] %>%
+  strsplit(split = "\\s{2,}")
 
+var_lines <- c("Category", "2020", "2019")
+key_figutres.20 <- plyr::ldply(all_stat_lines)
+colnames(key_figutres.20) <- var_lines 
+
+```
+
+
+
+```{r}
+### First Half2020 Key Figures (Wendy)
+PDF1 <- pdf_text("Resources/hermes_1hresults2020_va.pdf") %>%readr::read_lines()
+PDF1.table <-PDF1[c(131:149)]
+b<-PDF1.table%>%str_squish()%>%strsplit(split = " ")
+b<-b[-c(4,13,17)]
+get_variable1<-function(a){
+  variable_name<-c()
+  len<-c()
+  for(i in 1:length(a)){
+    len[i]<-length(a[[i]])
+    variable_name[i]<-paste(a[[i]][-c((len[i]-2):len[i])],collapse=' ')
+  }
+  return(variable_name)
+}
+h1data2019<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]]))]
+  }
+  return(data)
+}
+h1data2020<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-2)]
+  }
+  return(data)
+}
+key2020h1 <- data.frame('rownames'=get_variable1(b),'H12020'=h1data2020(b),'H12019'=h1data2019(b))
+write.csv(key2020h1,"rawdata/2020_Half_Year_key_figures.csv")
+```
+
+
+
+```{r}
+### 2018-2019 Key Figures (Wendy)
+PDF <- pdf_text("Resources/hermes_20200423_CA1T_en.pdf") %>%
+readr::read_lines()
+PDF.table <-PDF[c(151:168)] 
+a<-PDF.table[-c(1:2)]%>%str_squish()%>%strsplit(split = " ")
+get_variable<-function(a){
+  variable_name<-c()
+  len<-c()
+  for(i in 1:length(a)){
+    len[i]<-length(a[[i]])
+    variable_name[i]<-paste(a[[i]][-c((len[i]-1):len[i])],
+                            collapse=' ')
+  }
+  return(variable_name)
+}
+data2019<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-1)]
+  }
+  return(data)
+}
+data2018<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]]))]
+  }
+  return(data)
+}
+key2019 <- data.frame('rownames'=get_variable(a),'2019'=data2019(a),'2018'=data2018(a))
+write.csv(key2019,"rawdata/2019_key_figures.csv")
+```
+
+
+```{r}
+## 2016-2020 key figure(Wendy)
+library(pdftools)
+library(tidyverse)
+info <- pdf_text("Resources/key figure info.pdf") %>%
+  read_lines()
+info<-info[23:39]
+keyinfo<- info[2:17] %>%
+  strsplit(split = "\\s{2,}")
+for (i in 1:16){
+  keyinfo[[i]]<-keyinfo[[i]][2:7]
+}
+var <- c("Category", "2020", "2019","2018","2017","2016")
+key_figures.1620 <- plyr::ldply(keyinfo)
+result1620<-as.matrix(key_figures.1620)
+result1620<-result1620%>%str_replace("[()]",'-')%>%str_replace("[()]",'')%>%str_replace("\\,",'')
+key_figures.1620<-as.data.frame(matrix(data=result1620,16,6))
+colnames(key_figures.1620) <- var
+write.csv(key_figures.1620,"rawdata/2016_2020_key_figures.csv")
+```
+
+
+
+**5. 2019 & 2020 Financial Statements**
+<br>
+Financial Statements contains valuable information about a company’s performance. We obtained Hermès’ Income Statement and Balance Sheet in year 2019 and 2020 from Hermès annual reports.
+
+```{r}
+### 2020 Consolidated Income Statement(Jen)
 PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
   read_lines()
 PDF <- PDF[230:248]
@@ -275,12 +324,12 @@ incomestatement_20 <- PDF[3:19] %>%
   plyr::ldply()
 colnames(incomestatement_20) <- c("Category","2020","2019")
 write.csv(incomestatement_20,"rawdata/2020_income_statemente.csv")
-
 ```
 
 
-### 2020 Consolidated Statement of Comprehensive Income(Jen)
+
 ```{r}
+### 2020 Consolidated Statement of Comprehensive Income(Jen)
 PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
   read_lines()
 PDF <- PDF[249:261]
@@ -293,8 +342,8 @@ write.csv(comprehensive_income_20,"rawdata/2020_comprehensice_income.csv")
 ```
 
 
-### 2020 Consolidated Balance Sheet(Jen)
 ```{r}
+### 2020 Consolidated Balance Sheet(Jen)
 PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
   read_lines()
 PDF <- PDF[269:319]
@@ -310,9 +359,9 @@ colnames(balance_sheet_liability_20) <- c("category","31/12/2020","31/12/2019")
 write.csv(balance_sheet_liability_20,"rawdata/2020_balance_sheet_liability.csv")
 ```
 
-### 2020 Consolidated Statement of Cash Flows(Jen)
+
 ```{r}
-# CONSOLIDATED STATEMENT OF CASH FLOWS
+### 2020 Consolidated Statement of Cash Flows(Jen)
 PDF <- pdf_text("Resources/hermes_20210219_results2020_en.pdf") %>%
   read_lines()
 PDF <- PDF[362:403]
@@ -329,11 +378,8 @@ write.csv(cash_flows_20,"rawdata/2020_cash_flows.csv")
 ```
 
 
-## 2019 Financial Statements
-
-### 2019 Consolidated Income Statement(Jen)
-
 ```{r}
+### 2019 Consolidated Income Statement(Jen)
 PDF <- pdf_text("Resources/hermes_2019_resultats_en.pdf") %>%
   read_lines()
 PDF <- PDF[225:243]
@@ -344,8 +390,8 @@ colnames(incomestatement_19) <- c("Category","2019","2018 restated")
 write.csv(incomestatement_19,"rawdata/2019_income_statement.csv")
 ```
 
-### 2019 Consolidated Statement of Comprehensive Income(Jen)
 ```{r}
+### 2019 Consolidated Statement of Comprehensive Income(Jen)
 PDF <- pdf_text("Resources/hermes_2019_resultats_en.pdf") %>%
   read_lines()
 PDF <- PDF[246:259]
@@ -358,8 +404,8 @@ write.csv(comprehensive_income_19,"rawdata/2019_comprehensive_income.csv")
 ```
 
 
-### 2019 Consolidated Balance Sheet(Jen)
 ```{r}
+### 2019 Consolidated Balance Sheet(Jen)
 PDF <- pdf_text("Resources/hermes_2019_resultats_en.pdf") %>%
   read_lines()
 PDF <- PDF[268:321]
@@ -380,9 +426,9 @@ colnames(balance_sheet_liability_19) <- c("category","31/12/2019","31/12/2018 re
 write.csv(balance_sheet_liability_19,"rawdata/2019_balance_sheet_liability.csv")
 ```
 
-### 2019 Consolidated Statement of Cash Flows(Jen)
+
 ```{r}
-# CONSOLIDATED STATEMENT OF CASH FLOWS
+### 2019 Consolidated Statement of Cash Flows(Jen)
 PDF <- pdf_text("Resources/hermes_2019_resultats_en.pdf") %>%
   read_lines()
 PDF <- PDF[387:428]
@@ -398,41 +444,13 @@ write.csv(cash_flows_19,"rawdata/2019_cash_flows.csv")
 ```
 
 
-## STORE info(Wendy)
-```{r}
-store<-pdf_text("Resources/Store location.pdf")%>%
-  read_lines()
-
-```
-
-```{r}
-strstore<-str_extract(store, "[:alpha:]\\:\\s[:digit:]")
-index<-which(!is.na(strstore))
-storecountry<-store[index[-1]]%>%strsplit(split = "\\s{2,}")
-str2<-c()
-k<-c()
-for (i in 1:length(storecountry)){
-  str2<-str_extract(storecountry[[i]],"\\w\\:\\s\\d+")
-  index2<-which(!is.na(str2))
-  str_country<-storecountry[[i]][index2]
-  l<-storecountry[[i]][index2]
-  k<-c(k,l)
-}
-
-```
-
-```{r}
-df<-data.frame(k)
-store_info <- df%>%separate(k,c('Country','number of stores'),": ")
-new<-c(0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,2,0,0,0,0,0,2,1,1,0,0,2,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0)
-store_info <- cbind(store_info,new)
-write.csv(store_info,"rawdata/Storeinfo.csv")
-```
+**6. Stock Information**
+<br>
+We would like to see how did Hermès’ stock prices perform comparing to other relative stock prices such as stock market index and relative French based luxury goods corporations’ stock. We obtained French Stock Index, S&P 500, LVMH(owns LV, Loewe, Dior etc.) stock and Kering(owns Gucci, Balenciaga, YSL and etc.) stock using `quantmod` package in R.
 
 
-## Stock Info(Wendy)
-
-```{r}
+```{r results=FALSE}
+### Stock Info(Wendy)
 library(quantmod)
 library(tidyverse)
 library(lubridate)
@@ -453,3 +471,4 @@ getSymbols("^FCHI", from = "2010-01-01",to='2021-01-01')
 CAC40i<-as.data.frame(Cl(FCHI))%>%tibble::rownames_to_column("date")
 write.csv(CAC40i, "rawdata/CAC40_stock_info.csv")
 ```
+*One issue we faced when collecting data was that all data available was in pdf format.  We managed to solve this problem by data scrapping using `pdftools` package.*

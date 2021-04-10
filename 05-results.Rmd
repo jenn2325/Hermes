@@ -249,8 +249,8 @@ map <- ggplot() +
   #geom_text(aes(x=x,y=y,label = number.of.stores), data = newstore,  size = 2, hjust = 0.5)+
   scale_fill_gradientn(colours =
                          c("#999999", "#009E73", "#56B4E9","#0072B2", "#E69F00", "#D55E00"))+
-  geom_point(data = newstore, aes(x = x, y = y-5, fill = new,group = region,label=number.of.stores),show.legend = FALSE ,color = "purple")+
-  labs(title='Map of Store Location',x='Longitude',y='Latitude',fill = "# of Stores")+
+  geom_point(data = newstore, aes(x = x, y = y, fill = new,group = region,label=number.of.stores),show.legend = FALSE ,color = "purple")+
+  labs(title='Map of Store Location',fill = "# of Stores")+
   theme(legend.position = "bottom")
   
 library(plotly)
