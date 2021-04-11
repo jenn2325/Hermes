@@ -1,5 +1,5 @@
 --- 
-title: "Hermès 2020 Financial Analysis"
+title: "Hermès 2020 Performance Analysis"
 author: "Jen Wang, Wenjie Wei and Yinqiu Feng"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -7,4 +7,6 @@ site: bookdown::bookdown_site
 
 # Introduction
 
-Our project
+[Hermès](https://www.hermes.com/us/en/), a renowned French luxury goods manufacturer established in 1837, specializes in leather goods, fine jewelry, clothes, home furniture, and lifestyle accessories. Interestingly, Hermès is where you can't even walk into a boutique and buy a bag with a five figure price immediately. You also can't but almost all the handbags in iconic styles online. They only sell iconic bags such as Birkin, Kelly and Constance to customers who have been established a extensive purchase history and each customer can only purchase on iconic bag in every six months. This famous “Anti Marketing” strategy which focuses on exclusivity, scarcity and craftsmanship was very successful in the past decades. While so many retails were heavily affected by the unprecedented health and economic crisis in year 2020, we are interested to explore whether this leading luxury brand still outperformed and demonstrated its business strategy strength, ability to adapt and the agility.<br>
+In this project, we would like to evaluate Hermès’ performance in 2020 by exploring its regional performance, sectoral performance and retail stores growth,  analyzing its financial statements (income statement and balance sheet), and stock information.
+

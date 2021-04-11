@@ -7,7 +7,8 @@ From ratio of 2020 in the treemap, we could found that compare with the total re
 library(treemap)
 geo = read.csv('cleaneddata/rev_by_geo_quarterly_2020.csv')
 sec = read.csv('cleaneddata/rev_by_sector_quarterly_2020.csv')
-treemap(geo,  index=c("Year", "Quarter","Region","Country"),fontsize.labels=c(30,20),  vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))
+treemap(geo,  index=c("Year", "Quarter","Region","Country"),fontsize.labels=c(30,20),  vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))+
+  ggthemes::scale_fill_colorblind()
 
 ```
 <br>
@@ -17,7 +18,8 @@ we plot a treemap on Revenue on both 2019 and 2020 where each smaller rectangle 
 From the prespective, Asia except Japan takes largest potion of total revenue in every quarter and has been influened smaller during first two quarter in 2020. Since the size of Asia except Japan at 2020 first two quarter is similiar as that at 2019 first two quarter and the size of Asia except Japan at 2020 last two quarter is larger than that at 2019 last two quarter. Their consupmtion might be the main reason for increase on last quarter on 2020.
 <br/>
 ```{r fig.height=7.5, fig.width=12}
-treemap(sec,  index=c("Year", "Quarter","Sector"),fontsize.labels=c(30,20),vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))
+treemap(sec,  index=c("Year", "Quarter","Sector"),fontsize.labels=c(30,20),vSize="Revenue",force.print.labels = T,align.labels = list(c("left", "top"), c("right", "bottom")))+
+  ggthemes::scale_fill_colorblind()
 ```
 
 
@@ -140,7 +142,8 @@ Here is the income statement of Hermes in 2019 and 2020. In 2019, the total Reve
 ```{r}
 keyfigure<-read.csv("cleaneddata/keyfigures2016_2020.csv")
 library(viridis)
-ggplot(keyfigure,aes(x=Year,y=value,color=Category,group=Category))+geom_line()+scale_color_viridis(discrete = TRUE)+labs(title='3 Key figures we need to pay attention with',y='index')
+linetype = c("solid","twodash","longdash")
+ggplot(keyfigure,aes(x=Year,y=value,color=Category,group=Category))+geom_line(aes(linetype = Category))+scale_color_viridis(discrete = TRUE)+labs(title='3 Key figures we need to pay attention with:',y='index')+theme(plot.title = element_text(color =  "blue"))
 ```
 <br>
 This plot shows the trend of the Hermes performance from some perspectives in Years 2016 to 2020.
@@ -156,7 +159,7 @@ balancesheets%>%
   geom_text(aes(label = str_c(Category, amount, sep = "\n")), position = position_stack(vjust = 0.55), size = 3.75,fontface = "bold") + geom_text(data = balancesheets %>% group_by(Year, al) %>% summarise(total = sum(amount)), aes(x = al, y = -900, label = total, fill = "green"), size = 4) +
   geom_segment(x = 1.5, y = 0, xend = 1.5, yend = 100000, color = "black", size = 1.5) +
   scale_x_discrete(position = "top") +
-  scale_fill_brewer(palette = "Spectral") +
+  scale_fill_brewer(palette = "RdYlBu",direction=-1)+
   facet_wrap(~ Year) +
   labs(title = "Balance Sheets",
        subtitle='In million of euros',
@@ -185,7 +188,13 @@ library(lubridate)
 return<-read.csv("cleaneddata/stockreturn.csv")%>%mutate(Date=ymd(Date))
 returnmar<-return%>%pivot_longer(c('HERMES','LVMH','KERING','S.P500',"CAC40"),names_to='stock',values_to='return')%>%mutate(stock=as.factor(stock))%>%filter(month(Date)==03)
 mins <- returnmar %>% group_by(stock) %>% filter(return == min(return))
-q<-ggplot(returnmar,aes(y=return,x=Date,color=stock))+geom_line(size=0.6)+facet_grid(stock~.)+ggtitle('HERMES Stock Return vs Other in 2020 March')+theme_grey(8)+theme(legend.title=element_blank())+geom_point(data=mins,aes(x=Date,y=return,group=stock),size=1,color='black',text=return,label=Date)+labs(x='',y='')
+q<-ggplot(returnmar,aes(y=return,x=Date,color=stock))+
+  geom_line(size=0.6)+facet_grid(stock~.)+
+  ggtitle('HERMES Stock Return vs Other in 2020 March')+
+  theme_grey(8)+
+  theme(legend.title=element_blank())+
+  geom_point(data=mins,aes(x=Date,y=return,group=stock),size=1,color='black',text=return,label=Date)+labs(x='',y='')+
+  scale_colour_brewer(palette='Set2',direction=-1)
 f <- list(
   family = "Old Standard TT, serif",
   size = 5,
@@ -252,9 +261,7 @@ newstore <- merge(newstore, countrycoords, by = "region")
 map <- ggplot() +
   geom_polygon(data = map_data("world"),aes(x = long, y = lat, group = group, label = region),fill="lightgray", colour = "white")+
   geom_polygon(data = hermesdata, aes(x = long, y = lat, group = group, fill = number.of.stores, label = region))+
-  #geom_text(aes(x=x,y=y,label = number.of.stores), data = newstore,  size = 2, hjust = 0.5)+
-  scale_fill_gradientn(colours =
-                         c("#999999", "#009E73", "#56B4E9","#0072B2", "#E69F00", "#D55E00"))+
+  scale_fill_distiller(palette ='Oranges', direction = 1)+
   geom_point(data = newstore, aes(x = x, y = y, fill = new,group = region,label=number.of.stores),show.legend = FALSE ,color = "purple")+
   labs(title='Map of Store Location',fill = "# of Stores")+
   theme(legend.position = "bottom")
