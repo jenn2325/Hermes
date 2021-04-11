@@ -4,12 +4,13 @@
 ```{r}
 data <- read.csv(file = "rawdata/2010_to_2020_Rev_Geo.csv",skip = 2)
 data <- data[,-1] %>% 
-  column_to_rownames("NA.") %>% 
-  mutate(Total = Asia.Pacific+Europe+Americas+Other)
+  column_to_rownames("NA.")
 write.csv(data,"cleaneddata/d3data.csv")
 ```
 
-## treemap data
+**1. Revenue by Geographical Area**
+<br>
+Eliminate total and subtotal revenue of area and keep all revenues value of smallest region unit in numeric type. And convert wide data to long data by using tidy verse. After preprocessing all quarters data, concatenate all quarter’s data with which quarter specified.
 ```{r}
 clean_geo <- function(path, quarter){
   library(tibble)
@@ -46,6 +47,38 @@ geo = rbind(geo_Q1, geo_Q2, geo_Q3, geo_Q4)
 write.csv(geo,"cleaneddata/rev_by_geo_quarterly_2020.csv")
 ```
 
+
+**2. Store Allocation**
+<br>
+To be compatible with the region name in the `maps` package, we change the country name of United Kingdoms and Monaco. And We also include the caribbean in Americas, Hong Kong and Macao in China to match the boundary in package. 
+```{r}
+store <- read.csv("rawdata/Storeinfo.csv")[,-1]
+store$Country[4] <- "UK"
+store$Country[7] <- "Monaco"
+China <- store %>% 
+  filter(Country == "Hong Kong" | Country == "Macao" | Country == "Mainland China")
+Americas <- store %>% 
+  filter(Country == "Caribbean" | Country == "United States")
+Americas <- c("USA", sum(Americas$number.of.stores), sum(Americas$new))
+
+China <- c("China", sum(China$number.of.stores), sum(China$new))
+store <- store %>% 
+  mutate(number.of.stores = as.numeric(number.of.stores)) %>% 
+  mutate(new = as.numeric(new)) %>% 
+  filter(Country != "Hong Kong" & Country != "Macao" & Country != "Mainland China" & Country != "United States" & Country != "Caribbean") %>% 
+  rbind(China) %>% 
+  rbind(Americas) %>% 
+  mutate(number.of.stores = as.integer(number.of.stores)) %>% 
+  mutate(new = as.integer(new))
+write.csv(store,"cleaneddata/storeinfo.csv")
+
+```
+
+
+**3. Revenue by Sector**
+<br>
+Convert all revenues value to numeric type and 
+eliminate total and subtotal revenue of sectors. Also rename sectors name by eliminating footnote. Then convert wide data to long data by using tidy verse. After preprocessing all quarters data, concatenate all quarter’s data with which quarter specified. 
 ```{r}
 clean_sec<- function(path, quarter){
   library(tibble)
@@ -81,8 +114,34 @@ sec = rbind(sec_Q1, sec_Q2, sec_Q3, sec_Q4)
 write.csv(sec,"cleaneddata/rev_by_sector_quarterly_2020.csv")
 ```
 
+**4. Key Figures**
+<br>
+First, we select the important variables that we want to discuss in key figures. Then we transfer the row name into date column. Because these metrics all have different units, and it will be meaningless to put them together in one plot, we decide to transfer all values into index in a way it can provide a better comparison.
+```{r}
+key_figures.1620<-read.csv("rawdata/2016_2020_key_figures.csv")
+table<-key_figures.1620%>%filter(Category%in%c('Revenue','Workforce -number of employees','Recurring operating income 2'))
+df<-as.data.frame(t(table))[-c(1:2),]
+colnames(df)<-c('Revenue','RecurringOI','Workforce')
+date<-rownames(df)
+rownames(df)<-NULL
+df['Year']<-date
+df1<-df%>%mutate(Revenue=as.numeric(Revenue),Workforce=as.numeric(Workforce),RecurringOI=as.numeric(RecurringOI))
+index<-function(y){
+  standard<-y[1]
+  a<-lapply(y, function(x) (x/standard)*100)
+  return(unlist(a))
+}
+df2<-df1%>% mutate_at(c("Revenue",'RecurringOI', "Workforce"), ~(index(.) %>% as.vector))
+df3<-df2%>%pivot_longer(c('Revenue','RecurringOI','Workforce'),names_to='Category',values_to='value')%>%mutate(Category=as.factor(Category))
+df3['Year']<-df3$Year%>%str_remove('\\X')
+write.csv(df3,"cleaneddata/keyfigures2016_2020.csv")
+```
 
-## Income Statement
+**5. 2019 & 2020 Financial Statements**
+<br>
+For income statement, we only extract the expense, income, and final net profit. Since we would like to show the flow of revenue and compare the final profit between 2020 and 2019, we eliminate the subtotal. Also rename the name of income and expense could fit axis better and add a column of reference for waterfall plot.
+<br> 
+For balance Sheet, we combine the asset data from 2018 to 2020 together as the liability data from 2018 to 2020. Then we only include the major terms in balance sheet and merge the asset with liabilities. We transform the data frame into a better frame for plotting and replace the ',' inside amount column. Hence, we can easily transfer the data type of value from character to numeric.
 ```{r}
 library(stringr)
 clean_income_statement<- function(incomestatement){
@@ -107,16 +166,11 @@ write.csv(incomestatement19,"cleaneddata/incomestatement19.csv")
 write.csv(incomestatement20,"cleaneddata/incomestatement20.csv")
 
 ```
-
-## balance Sheet data
 ```{r}
 asset20<-read.csv('rawdata/2020_balance_sheet_asset.csv')
 asset19<-read.csv('rawdata/2019_balance_sheet_asset.csv')
 liab20<-read.csv('rawdata/2020_balance_sheet_liability.csv')
 liab19<-read.csv('rawdata/2019_balance_sheet_liability.csv')
-```
-
-```{r}
 asset<-merge(asset19,asset20,by='category')
 liability<-merge(liab19,liab20,by='category')
 asset<-asset%>%select(category,X31.12.2018.restated,X31.12.2019.y,X31.12.2020)%>%filter(category%in%c('Current assets','Non-current assets'))
@@ -134,48 +188,23 @@ balancesheets['amount']<-as.double(value)
 balancesheets<-balancesheets%>%mutate(amount=as.numeric(amount))
 write.csv(balancesheets,"cleaneddata/balancesheet.csv")
 ```
+ 
 
-## key figure data
+**6. Stock Information**
+<br>
+Convert the date column into Date data type. Join all different stocks data together.Then, we can calculate the return rate by calculate the difference of prices between $Day_t$ and $Day_{t+1}$ and divide by the $Price_t$. We assume the first day return to be 0.
 ```{r}
-key_figures.1620<-read.csv("rawdata/2016_2020_key_figures.csv")
-table<-key_figures.1620%>%filter(Category%in%c('Revenue','Workforce -number of employees','Recurring operating income 2'))
-df<-as.data.frame(t(table))[-c(1:2),]
-colnames(df)<-c('Revenue','RecurringOI','Workforce')
-date<-rownames(df)
-rownames(df)<-NULL
-df['Year']<-date
-df1<-df%>%mutate(Revenue=as.numeric(Revenue),Workforce=as.numeric(Workforce),RecurringOI=as.numeric(RecurringOI))
-index<-function(y){
-  standard<-y[1]
-  a<-lapply(y, function(x) (x/standard)*100)
-  return(unlist(a))
-}
-df2<-df1%>% mutate_at(c("Revenue",'RecurringOI', "Workforce"), ~(index(.) %>% as.vector))
-df3<-df2%>%pivot_longer(c('Revenue','RecurringOI','Workforce'),names_to='Category',values_to='value')%>%mutate(Category=as.factor(Category))
-df3['Year']<-df3$Year%>%str_remove('\\X')
-write.csv(df3,"cleaneddata/keyfigures2016_2020.csv")
-```
-
-## stock data
-```{r}
-library(zoo)
 cac40i<-read.csv("rawdata/CAC40_stock_info.csv")
 hstockprice<-read.csv("rawdata/Hermes_stock_info.csv")
 lvstockprice<-read.csv("rawdata/LVMH_stock_info.csv")
 sp500price<-read.csv("rawdata/S&P500_info.csv")
 kerstockprice<-read.csv("rawdata/KERING_stock_info.csv")
-fchi<-zoo(cac40i)
-cac40<-as.data.frame(na.locf(cac40i))
-```
-
-
-```{r}
 library(lubridate)
 hstock <-hstockprice%>%mutate(date=ymd(date))%>%select(date,RMS.PA.Close)
 lvstock <- lvstockprice%>%mutate(date=ymd(date))%>%select(date,MC.PA.Close)
 sp500<-sp500price%>%mutate(GSPC.Close=as.numeric(GSPC.Close))%>%mutate(date=ymd(date))%>%select(date,GSPC.Close)
 kerstock <- kerstockprice%>%mutate(date=ymd(date))%>%select(date,KER.PA.Close)
-cac<-cac40%>%mutate(date=ymd(date))%>%select(date,FCHI.Close)
+cac<-cac40i%>%mutate(date=ymd(date))%>%select(date,FCHI.Close)
 lux<-inner_join(hstock,lvstock)%>%inner_join(kerstock)
 closeprice<-inner_join(lux,sp500)%>%inner_join(cac)
 return<-closeprice
@@ -193,29 +222,7 @@ write.csv(return,"cleaneddata/stockreturn.csv")
 ```
 
 
-## Store Data
-```{r}
-store <- read.csv("rawdata/Storeinfo.csv")[,-1]
-store$Country[4] <- "UK"
-store$Country[7] <- "Monaco"
-China <- store %>% 
-  filter(Country == "Hong Kong" | Country == "Macao" | Country == "Mainland China")
-Americas <- store %>% 
-  filter(Country == "Caribbean" | Country == "United States")
-Americas <- c("USA", sum(Americas$number.of.stores), sum(Americas$new))
 
-China <- c("China", sum(China$number.of.stores), sum(China$new))
-store <- store %>% 
-  mutate(number.of.stores = as.numeric(number.of.stores)) %>% 
-  mutate(new = as.numeric(new)) %>% 
-  filter(Country != "Hong Kong" & Country != "Macao" & Country != "Mainland China" & Country != "United States" & Country != "Caribbean") %>% 
-  rbind(China) %>% 
-  rbind(Americas) %>% 
-  mutate(number.of.stores = as.integer(number.of.stores)) %>% 
-  mutate(new = as.integer(new))
-write.csv(store,"cleaneddata/storeinfo.csv")
-
-```
 
 
 

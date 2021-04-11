@@ -91,12 +91,6 @@
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a><ul>
 <li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#d3-data"><i class="fa fa-check"></i><b>3.1</b> d3 data</a></li>
-<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#treemap-data"><i class="fa fa-check"></i><b>3.2</b> treemap data</a></li>
-<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#income-statement"><i class="fa fa-check"></i><b>3.3</b> Income Statement</a></li>
-<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#balance-sheet-data"><i class="fa fa-check"></i><b>3.4</b> balance Sheet data</a></li>
-<li class="chapter" data-level="3.5" data-path="data-transformation.html"><a href="data-transformation.html#key-figure-data"><i class="fa fa-check"></i><b>3.5</b> key figure data</a></li>
-<li class="chapter" data-level="3.6" data-path="data-transformation.html"><a href="data-transformation.html#stock-data"><i class="fa fa-check"></i><b>3.6</b> stock data</a></li>
-<li class="chapter" data-level="3.7" data-path="data-transformation.html"><a href="data-transformation.html#store-data"><i class="fa fa-check"></i><b>3.7</b> Store Data</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a><ul>
@@ -130,24 +124,27 @@
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
 <div id="d3-data" class="section level2">
 <h2><span class="header-section-number">3.1</span> d3 data</h2>
-</div>
-<div id="treemap-data" class="section level2">
-<h2><span class="header-section-number">3.2</span> treemap data</h2>
-</div>
-<div id="income-statement" class="section level2">
-<h2><span class="header-section-number">3.3</span> Income Statement</h2>
-</div>
-<div id="balance-sheet-data" class="section level2">
-<h2><span class="header-section-number">3.4</span> balance Sheet data</h2>
-</div>
-<div id="key-figure-data" class="section level2">
-<h2><span class="header-section-number">3.5</span> key figure data</h2>
-</div>
-<div id="stock-data" class="section level2">
-<h2><span class="header-section-number">3.6</span> stock data</h2>
-</div>
-<div id="store-data" class="section level2">
-<h2><span class="header-section-number">3.7</span> Store Data</h2>
+<p><strong>1. Revenue by Geographical Area</strong>
+<br>
+Eliminate total and subtotal revenue of area and keep all revenues value of smallest region unit in numeric type. And convert wide data to long data by using tidy verse. After preprocessing all quarters data, concatenate all quarter’s data with which quarter specified.</p>
+<p><strong>2. Store Allocation</strong>
+<br>
+To be compatible with the region name in the <code>maps</code> package, we change the country name of United Kingdoms and Monaco. And We also include the caribbean in Americas, Hong Kong and Macao in China to match the boundary in package.</p>
+<p><strong>3. Revenue by Sector</strong>
+<br>
+Convert all revenues value to numeric type and
+eliminate total and subtotal revenue of sectors. Also rename sectors name by eliminating footnote. Then convert wide data to long data by using tidy verse. After preprocessing all quarters data, concatenate all quarter’s data with which quarter specified.</p>
+<p><strong>4. Key Figures</strong>
+<br>
+First, we select the important variables that we want to discuss in key figures. Then we transfer the row name into date column. Because these metrics all have different units, and it will be meaningless to put them together in one plot, we decide to transfer all values into index in a way it can provide a better comparison.</p>
+<p><strong>5. 2019 &amp; 2020 Financial Statements</strong>
+<br>
+For income statement, we only extract the expense, income, and final net profit. Since we would like to show the flow of revenue and compare the final profit between 2020 and 2019, we eliminate the subtotal. Also rename the name of income and expense could fit axis better and add a column of reference for waterfall plot.
+<br>
+For balance Sheet, we combine the asset data from 2018 to 2020 together as the liability data from 2018 to 2020. Then we only include the major terms in balance sheet and merge the asset with liabilities. We transform the data frame into a better frame for plotting and replace the ‘,’ inside amount column. Hence, we can easily transfer the data type of value from character to numeric.</p>
+<p><strong>6. Stock Information</strong>
+<br>
+Convert the date column into Date data type. Join all different stocks data together.Then, we can calculate the return rate by calculate the difference of prices between <span class="math inline">\(Day_t\)</span> and <span class="math inline">\(Day_{t+1}\)</span> and divide by the <span class="math inline">\(Price_t\)</span>. We assume the first day return to be 0.</p>
 
 </div>
 </div>
@@ -207,6 +204,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
