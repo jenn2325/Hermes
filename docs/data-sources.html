@@ -91,12 +91,6 @@
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a><ul>
 <li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#d3-data"><i class="fa fa-check"></i><b>3.1</b> d3 data</a></li>
-<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#treemap-data"><i class="fa fa-check"></i><b>3.2</b> treemap data</a></li>
-<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#income-statement"><i class="fa fa-check"></i><b>3.3</b> Income Statement</a></li>
-<li class="chapter" data-level="3.4" data-path="data-transformation.html"><a href="data-transformation.html#balance-sheet-data"><i class="fa fa-check"></i><b>3.4</b> balance Sheet data</a></li>
-<li class="chapter" data-level="3.5" data-path="data-transformation.html"><a href="data-transformation.html#key-figure-data"><i class="fa fa-check"></i><b>3.5</b> key figure data</a></li>
-<li class="chapter" data-level="3.6" data-path="data-transformation.html"><a href="data-transformation.html#stock-data"><i class="fa fa-check"></i><b>3.6</b> stock data</a></li>
-<li class="chapter" data-level="3.7" data-path="data-transformation.html"><a href="data-transformation.html#store-data"><i class="fa fa-check"></i><b>3.7</b> Store Data</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a><ul>
@@ -206,6 +200,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

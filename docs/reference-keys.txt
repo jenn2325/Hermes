@@ -2,12 +2,6 @@ introduction
 data-sources
 data-transformation
 d3-data
-treemap-data
-income-statement
-balance-sheet-data
-key-figure-data
-stock-data
-store-data
 missing-values
 results
 key-figure-time-serieswendy
