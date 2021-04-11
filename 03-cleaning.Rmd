@@ -4,7 +4,8 @@
 ```{r}
 data <- read.csv(file = "rawdata/2010_to_2020_Rev_Geo.csv",skip = 2)
 data <- data[,-1] %>% 
-  column_to_rownames("NA.")
+  column_to_rownames("NA.") %>% 
+  mutate(Total = Asia.Pacific+Europe+Americas+Other)
 write.csv(data,"cleaneddata/d3data.csv")
 ```
 
