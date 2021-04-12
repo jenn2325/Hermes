@@ -11,37 +11,45 @@
 "10","Americas","2019",269.7,"Q1","Americas"
 "11","Other","2020",29,"Q1","Other"
 "12","Other","2019",33.5,"Q1","Other"
-"13","France","2020",83.4,"Q2","Europe"
-"14","France","2019",221,"Q2","Europe"
-"15","Europe (excl. France)","2020",114.3,"Q2","Europe"
-"16","Europe (excl. France)","2019",283,"Q2","Europe"
-"17","Asia-Pacific (excl. Japan)","2020",582.9,"Q2","Asia"
-"18","Asia-Pacific (excl. Japan)","2019",643.4,"Q2","Asia"
-"19","Americas","2020",78.3,"Q2","Americas"
-"20","Americas","2019",299.6,"Q2","Americas"
-"21","Other","2020",15.1,"Q2","Other"
-"22","Other","2019",31.1,"Q2","Other"
-"23","France","2020",167.8,"Q3","Europe"
-"24","France","2019",217.5,"Q3","Europe"
-"25","Europe (excl. France)","2020",280.4,"Q3","Europe"
-"26","Europe (excl. France)","2019",313.9,"Q3","Europe"
-"27","Japan","2020",244.3,"Q3","Asia"
-"28","Japan","2019",226,"Q3","Asia"
-"29","Asia-Pacific (excl. Japan)","2020",810.8,"Q3","Asia"
-"30","Asia-Pacific (excl. Japan)","2019",647.5,"Q3","Asia"
-"31","Americas","2020",269.8,"Q3","Americas"
-"32","Americas","2019",297.5,"Q3","Americas"
-"33","Other","2020",27.2,"Q3","Other"
-"34","Other","2019",25.5,"Q3","Other"
-"35","France","2020",199.6,"Q4","Europe"
-"36","France","2019",244,"Q4","Europe"
-"37","Europe (excl. France)","2020",324.1,"Q4","Europe"
-"38","Europe (excl. France)","2019",343.4,"Q4","Europe"
-"39","Japan","2020",267.3,"Q4","Asia"
-"40","Japan","2019",237.3,"Q4","Asia"
-"41","Asia-Pacific (excl. Japan)","2020",920.8,"Q4","Asia"
-"42","Asia-Pacific (excl. Japan)","2019",642.7,"Q4","Asia"
-"43","Americas","2020",352.5,"Q4","Americas"
-"44","Americas","2019",374,"Q4","Americas"
-"45","Other","2020",36.8,"Q4","Other"
-"46","Other","2019",29.9,"Q4","Other"
+"13",NA,"2020",NA,"Q2",NA
+"14",NA,"2019",83.4,"Q2",NA
+"15",NA,"2020",NA,"Q2",NA
+"16",NA,"2019",114.3,"Q2",NA
+"17",NA,"2020",NA,"Q2",NA
+"18",NA,"2019",197.7,"Q2",NA
+"19",NA,"2020",NA,"Q2",NA
+"20",NA,"2019",108.6,"Q2",NA
+"21",NA,"2020",NA,"Q2",NA
+"22",NA,"2019",582.9,"Q2",NA
+"23",NA,"2020",NA,"Q2",NA
+"24",NA,"2019",691.5,"Q2",NA
+"25",NA,"2020",NA,"Q2",NA
+"26",NA,"2019",78.3,"Q2",NA
+"27",NA,"2020",NA,"Q2",NA
+"28",NA,"2019",15.1,"Q2",NA
+"29",NA,"2020",NA,"Q2",NA
+"30",NA,"2019",982.5,"Q2",NA
+"31","France","2020",167.8,"Q3","Europe"
+"32","France","2019",217.5,"Q3","Europe"
+"33","Europe (excl. France)","2020",280.4,"Q3","Europe"
+"34","Europe (excl. France)","2019",313.9,"Q3","Europe"
+"35","Japan","2020",244.3,"Q3","Asia"
+"36","Japan","2019",226,"Q3","Asia"
+"37","Asia-Pacific (excl. Japan)","2020",810.8,"Q3","Asia"
+"38","Asia-Pacific (excl. Japan)","2019",647.5,"Q3","Asia"
+"39","Americas","2020",269.8,"Q3","Americas"
+"40","Americas","2019",297.5,"Q3","Americas"
+"41","Other","2020",27.2,"Q3","Other"
+"42","Other","2019",25.5,"Q3","Other"
+"43","France","2020",199.6,"Q4","Europe"
+"44","France","2019",244,"Q4","Europe"
+"45","Europe (excl. France)","2020",324.1,"Q4","Europe"
+"46","Europe (excl. France)","2019",343.4,"Q4","Europe"
+"47","Japan","2020",267.3,"Q4","Asia"
+"48","Japan","2019",237.3,"Q4","Asia"
+"49","Asia-Pacific (excl. Japan)","2020",920.8,"Q4","Asia"
+"50","Asia-Pacific (excl. Japan)","2019",642.7,"Q4","Asia"
+"51","Americas","2020",352.5,"Q4","Americas"
+"52","Americas","2019",374,"Q4","Americas"
+"53","Other","2020",36.8,"Q4","Other"
+"54","Other","2019",29.9,"Q4","Other"
