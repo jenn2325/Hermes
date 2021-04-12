@@ -15,5 +15,6 @@ hermès-income-statements
 hermès-balance-sheet-t-account-map
 stock-information
 stock-time-series-plot-in-march
+hermès-stock-vs-french-index-in-2020
 interactive-component
 conclusion
