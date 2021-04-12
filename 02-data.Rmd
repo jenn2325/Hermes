@@ -44,7 +44,7 @@ write.csv(geo_first,"rawdata/2020_Q1_Rev_Geo.csv")
 ```{r}
 ### 2020 2nd Quarter Revenue by Geographical Area(Wendy)
 url2="https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-09/1599743148/hermes_1hresults2020_va.pdf"
-geo_second = get_quarter(url2, c(6), c(17:26))
+geo_second = get_quarter(url2, c(6), c(17:26))[,-1]
 write.csv(geo_second,"rawdata/2020_Q2_Rev_Geo.csv")
 ```   
 
