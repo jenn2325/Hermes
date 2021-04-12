@@ -24,7 +24,7 @@
 <meta name="author" content="Jen Wang, Wenjie Wei and Yinqiu Feng" />
 
 
-<meta name="date" content="2021-04-11" />
+<meta name="date" content="2021-04-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -89,15 +89,25 @@
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a><ul>
-<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#d3-data"><i class="fa fa-check"></i><b>3.1</b> d3 data</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a><ul>
-<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#key-figure-time-serieswendy"><i class="fa fa-check"></i><b>5.1</b> key figure time series(Wendy)</a></li>
-<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#balance-sheet-t-mapwendy"><i class="fa fa-check"></i><b>5.2</b> Balance sheet T map(Wendy)</a></li>
-<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#stock-time-series-in-march"><i class="fa fa-check"></i><b>5.3</b> Stock Time Series in March</a></li>
-<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#store-info"><i class="fa fa-check"></i><b>5.4</b> Store Info</a></li>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#revenue-by-geographical-area"><i class="fa fa-check"></i><b>5.1</b> Revenue by Geographical Area</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#revenue-by-region"><i class="fa fa-check"></i><b>5.1.1</b> Revenue by Region</a></li>
+<li class="chapter" data-level="5.1.2" data-path="results.html"><a href="results.html#store-allocation"><i class="fa fa-check"></i><b>5.1.2</b> Store Allocation</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#revenue-by-sector"><i class="fa fa-check"></i><b>5.2</b> Revenue by Sector</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#revenue-by-sector-treemap"><i class="fa fa-check"></i><b>5.2.1</b> Revenue by Sector Treemap</a></li>
+<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#revenue-by-sector-stacked-bar-chart"><i class="fa fa-check"></i><b>5.2.2</b> Revenue by Sector Stacked Bar Chart</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#key-figures-time-series-plot"><i class="fa fa-check"></i><b>5.3</b> Key Figures Time Series Plot</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#financial-statements"><i class="fa fa-check"></i><b>5.4</b> Financial Statements</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="results.html"><a href="results.html#hermès-income-statements"><i class="fa fa-check"></i><b>5.4.1</b> Hermès Income Statements</a></li>
+<li class="chapter" data-level="5.4.2" data-path="results.html"><a href="results.html#hermès-balance-sheet-t-account-map"><i class="fa fa-check"></i><b>5.4.2</b> Hermès Balance Sheet T-account map</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#stock-information"><i class="fa fa-check"></i><b>5.5</b> Stock Information</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="results.html"><a href="results.html#stock-time-series-plot-in-march"><i class="fa fa-check"></i><b>5.5.1</b> Stock Time Series Plot in March</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
@@ -122,10 +132,12 @@
             <section class="normal" id="section-">
 <div id="conclusion" class="section level1">
 <h1><span class="header-section-number">Chapter 7</span> Conclusion</h1>
-<p>In order to evaluate the performance of Hermès during pandemic, we analyzed the revenue by different factors, financial statement, key figure and stock price.</p>
-<p>By comparing the revenue geographically of Hermès in 2019 with that in 2020, we can get the conclusion that the Covid-19 have been negatively influenced revenue from all area except Asian at the first half year and recovered gradually at the last quarter year. The revenue from Asian has not been influenced at all and increase. The main consumer from Asian might be from China by looking at the stare global distribution where there are highest stores’ density in China. However, the growth of revenue in Asian does not make up the loss in other regions. In 2020 year, Hermès decreases 500 million EU compared with revenue in 2019. By saving in Selling, marketing and administrative expenses, they diminish this loss to 300 millions EU, final profit from 1500 millions EU to 1300 millions EU. However, those negative influence on revenues does not affect consumer’s passion to Hermès’s leather product which takes nearly half of revenue of Hermès.</p>
-<p>Although the Revenue and Recurring operating decrease and back to 2018 level, the workforce of company is keeping same increase rate which represent the growth of Hermès company is not affected by Covid-19. Also, we can check that the total asset of Hermès increased as well, and the stockholder equality increase as well. And the stockholder also shows large market confidence on Hermès. During pandemic period, although the stock price of Hermès fluctuates with market, it still shows relative static compared with other luxury stock.</p>
-<p>From overall, although Hermès’s revenue has been impacted by Covid-19, their customers’ loyalty shows great confidence in the future. The group remains highly committed and active, and gradually adapts measures to those taken by health and public authorities.</p>
+<p>So far we have analyzed Hermès’ revenue by different factors, financial statements, key figures and stock returns.
+<br>
+By comparing Hermès’ revenue geographically in 2019 and 2020, we conclude that covid-19 has negatively influenced revenue from all area except Asia at the first half year and recovered gradually in the rest of the year. In 2020, Hermès decreases 500 million Euros compared with revenue in 2019. The revenue from Asia even increased in year 2020. The main consumers in Asia might be from China and Japan by looking at the stare global distribution. However, the growth of revenue in Asia did not completely compensate the decreases in other regions. However, the negative influence on revenue did not affect consumer’s passion to Hermès’s leather products which takes nearly half of the total revenue.
+<br>
+Although the Revenue and Recurring operating income decreased in 2020, the workforce of company kept its increasing rate which infered that the growth of Hermès company is not affected by covid-19. Also, Hermès’ total assets and stockholder equity increased in 2020, which shows shareholders’ confidence on Hermès. Although the stock price of Hermès fluctuated with market during the pandemic, it was less volatile compared to other luxury brands’ stocks.</p>
+<p>Overall, although Hermès’ revenue was impacted by covid-19 in 2020, Hermès remains highly committed and active, and gradually adapts measures to those taken by health and public authorities. This shows a great confidence in Hermès’ future.</p>
 
 </div>
             </section>

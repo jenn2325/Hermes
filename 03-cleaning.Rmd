@@ -1,16 +1,8 @@
 # Data transformation
 
-## d3 data
-```{r}
-data <- read.csv(file = "rawdata/2010_to_2020_Rev_Geo.csv",skip = 2)
-data <- data[,-1] %>% 
-  column_to_rownames("NA.")
-write.csv(data,"cleaneddata/d3data.csv")
-```
-
 **1. Revenue by Geographical Area**
 <br>
-Eliminate total and subtotal revenue of area and keep all revenues value of smallest region unit in numeric type. And convert wide data to long data by using tidy verse. After preprocessing all quarters data, concatenate all quarter’s data with which quarter specified.
+Eliminated total and subtotal revenue of area and kept all revenues value of smallest region unit in numeric type. And converted wide data to long data by using `tidyverse` package. After preprocessing all quarters' data, we concatenated all quarters' data with each quarter specified.
 ```{r}
 clean_geo <- function(path, quarter){
   library(tibble)
@@ -50,7 +42,7 @@ write.csv(geo,"cleaneddata/rev_by_geo_quarterly_2020.csv")
 
 **2. Store Allocation**
 <br>
-To be compatible with the region name in the `maps` package, we change the country name of United Kingdoms and Monaco. And We also include the caribbean in Americas, Hong Kong and Macao in China to match the boundary in package. 
+To be compatible with the region name in the `maps` package, we converted the country names of United Kingdoms and Principality of Monaco to their abbreviation. And we also included the Caribbean in Americas, Hong Kong and Macao in China to match the boundary in packages. 
 ```{r}
 store <- read.csv("rawdata/Storeinfo.csv")[,-1]
 store$Country[4] <- "UK"
@@ -77,8 +69,7 @@ write.csv(store,"cleaneddata/storeinfo.csv")
 
 **3. Revenue by Sector**
 <br>
-Convert all revenues value to numeric type and 
-eliminate total and subtotal revenue of sectors. Also rename sectors name by eliminating footnote. Then convert wide data to long data by using tidy verse. After preprocessing all quarters data, concatenate all quarter’s data with which quarter specified. 
+Converted all revenue to numeric type and eliminated total and subtotal revenue of sectors. Also renamed sectors' name by eliminating footnotes. Then we converted wide data to long data by using `tidyverse` package. After preprocessing all quarters' data, we concatenated all quarters' data with each quarter specified. 
 ```{r}
 clean_sec<- function(path, quarter){
   library(tibble)
@@ -116,7 +107,7 @@ write.csv(sec,"cleaneddata/rev_by_sector_quarterly_2020.csv")
 
 **4. Key Figures**
 <br>
-First, we select the important variables that we want to discuss in key figures. Then we transfer the row name into date column. Because these metrics all have different units, and it will be meaningless to put them together in one plot, we decide to transfer all values into index in a way it can provide a better comparison.
+First, we selected important variables that we want to discuss in key figures. Then we transferred the rownames into date column. Since these metrics all have different units, and it would be meaningless to put them together in one plot, we decided to transfer all values into index in a way it can provide a better comparison.
 ```{r}
 key_figures.1620<-read.csv("rawdata/2016_2020_key_figures.csv")
 table<-key_figures.1620%>%filter(Category%in%c('Revenue','Workforce -number of employees','Recurring operating income 2'))
@@ -139,9 +130,9 @@ write.csv(df3,"cleaneddata/keyfigures2016_2020.csv")
 
 **5. 2019 & 2020 Financial Statements**
 <br>
-For income statement, we only extract the expense, income, and final net profit. Since we would like to show the flow of revenue and compare the final profit between 2020 and 2019, we eliminate the subtotal. Also rename the name of income and expense could fit axis better and add a column of reference for waterfall plot.
+For income statements, we extracted the expenses, income, and final net profits. Since we would like to show the flow of revenue and compare the final profit between 2020 and 2019, we eliminated the intermediate incomes. We also converted income and expenses to their abbreviation so that they could fit x-axis better in the waterfall plot.
 <br> 
-For balance Sheet, we combine the asset data from 2018 to 2020 together as the liability data from 2018 to 2020. Then we only include the major terms in balance sheet and merge the asset with liabilities. We transform the data frame into a better frame for plotting and replace the ',' inside amount column. Hence, we can easily transfer the data type of value from character to numeric.
+For balance Sheets, we combined the asset data as well as the liability data together from 2018 to 2020. Then we included the major terms in balance sheet and merged the assets with liabilities. We transformed the dataframe into a better form for plotting and removed the ',' inside amount column so that we could easily transfer the data type from character to numeric.
 ```{r}
 library(stringr)
 clean_income_statement<- function(incomestatement){
@@ -192,7 +183,7 @@ write.csv(balancesheets,"cleaneddata/balancesheet.csv")
 
 **6. Stock Information**
 <br>
-Convert the date column into Date data type. Join all different stocks data together.Then, we can calculate the return rate by calculate the difference of prices between $Day_t$ and $Day_{t+1}$ and divide by the $Price_t$. We assume the first day return to be 0.
+Converted the Date column into Date data type. Joined all different stocks data together so that we could calculate the return rate by calculaing the differences of prices between $Day_t$ and $Day_{t+1}$ and dividing the differences by $Price_t$(We assumed the first day return to be 0).
 ```{r}
 cac40i<-read.csv("rawdata/CAC40_stock_info.csv")
 hstockprice<-read.csv("rawdata/Hermes_stock_info.csv")
@@ -223,6 +214,16 @@ write.csv(return,"cleaneddata/stockreturn.csv")
 
 
 
+**7. 2010-2020 Revenue vy Geographical Area(d3 data)**
+
+Introduced Year column as rownames and use it for d3 graph.
+
+```{r}
+data <- read.csv(file = "rawdata/2010_to_2020_Rev_Geo.csv",skip = 2)
+data <- data[,-1] %>% 
+  column_to_rownames("NA.")
+write.csv(data,"cleaneddata/d3data.csv")
+```
 
 
 

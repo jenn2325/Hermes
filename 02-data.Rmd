@@ -43,49 +43,9 @@ write.csv(geo_first,"rawdata/2020_Q1_Rev_Geo.csv")
 
 ```{r}
 ### 2020 2nd Quarter Revenue by Geographical Area(Wendy)
-PDF1 <- pdf_text("Resources/hermes_1hresults2020_va.pdf") %>%readr::read_lines()
-PDF1.geo<-PDF1[c(179:187)]
-c<-PDF1.geo%>%str_squish()%>%strsplit(split = " ")
-c<-c[-c(4,13,17)]
-get_variable2<-function(a){
-  variable_name<-c()
-  len<-c()
-  for(i in 1:length(a)){
-    len[i]<-length(a[[i]])
-    variable_name[i]<-paste(a[[i]][-c((len[i]-3):len[i])],collapse=' ')
-  }
-  return(variable_name)
-}
-secdata2019<-function(a){
-  data<-c()
-  for (i in 1:length(a)){
-    data[i]<-a[[i]][(length(a[[i]])-2)]
-  }
-  return(data)
-}
-secdata2020<-function(a){
-  data<-c()
-  for (i in 1:length(a)){
-    data[i]<-a[[i]][(length(a[[i]])-3)]
-  }
-  return(data)
-}
-evolpub<-function(a){
-  data<-c()
-  for (i in 1:length(a)){
-    data[i]<-a[[i]][(length(a[[i]])-1)]
-  }
-  return(data)
-}
-evolcons<-function(a){
-  data<-c()
-  for (i in 1:length(a)){
-    data[i]<-a[[i]][length(a[[i]])]
-  }
-  return(data)
-}
-secgeo<-data.frame('Area'=get_variable2(c),'2nd2020'=secdata2020(c),'2nd2019'=secdata2019(c),'evolution published'=evolpub(c),'evolution at constant exchange rates'=evolcons(c))
-write.csv(secgeo,"rawdata/2020_Q2_Rev_Geo.csv")
+url2="https://assets-finance.hermes.com/s3fs-public/node/pdf_file/2020-09/1599743148/hermes_1hresults2020_va.pdf"
+geo_second = get_quarter(url2, c(6), c(17:26))
+write.csv(geo_second,"rawdata/2020_Q2_Rev_Geo.csv")
 ```   
 
 
@@ -312,7 +272,7 @@ write.csv(key_figures.1620,"rawdata/2016_2020_key_figures.csv")
 
 **5. 2019 & 2020 Financial Statements**
 <br>
-Financial Statements contains valuable information about a company’s performance. We obtained Hermès’ Income Statement and Balance Sheet in year 2019 and 2020 from Hermès annual reports.
+Financial Statements contains valuable information about a company’s performance. We obtained Hermès’ Income Statements and Balance Sheets in year 2019 and 2020 from Hermès annual reports.
 
 ```{r}
 ### 2020 Consolidated Income Statement(Jen)
@@ -446,7 +406,7 @@ write.csv(cash_flows_19,"rawdata/2019_cash_flows.csv")
 
 **6. Stock Information**
 <br>
-We would like to see how did Hermès’ stock prices perform comparing to other relative stock prices such as stock market index and relative French based luxury goods corporations’ stock. We obtained French Stock Index, S&P 500, LVMH(owns LV, Loewe, Dior etc.) stock and Kering(owns Gucci, Balenciaga, YSL and etc.) stock using `quantmod` package in R.
+We would like to see how did Hermès’ stock price perform comparing to other relative stock prices such as stock market index and relative French based luxury goods corporations’ stocks. We obtained French Stock Index, S&P 500, LVMH(owns LV, Loewe, Dior etc.) stock and Kering(owns Gucci, Balenciaga, YSL and etc.) stock using `quantmod` package in R.
 
 
 ```{r results=FALSE}
