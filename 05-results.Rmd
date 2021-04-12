@@ -160,7 +160,7 @@ library(plotly)
 
 text1= c("+6883.4", "-2124.9", "-1815.7", "-604", "",'-68.6','-751','+15.9','-7', "Total")
 text2=c('+6389.4','-2013.3','-1698.5','-696.2','+91.1','-86.1','-613','+16.1','-4.1','Total')
-plot_income_statement<- function(incomestatement,text){
+plot_income_statement<- function(incomestatement,text,year){
   
   data = data.frame(x=factor(incomestatement$Category,levels=incomestatement$Category),incomestatement$Measure,y = incomestatement[,2])
 
@@ -183,7 +183,7 @@ a <- list(
   tickcolor = toRGB("blue")
 )
 fig <- fig %>%
-  layout(title = "Profit and loss statement",
+  layout(title = paste("Income statement in" , year),
         xaxis = a,
         yaxis = list(title = "Amount in millions of euros"),
         autosize = TRUE,
@@ -195,11 +195,13 @@ return(fig)
 incomestatement19 <- read.csv("cleaneddata/incomestatement19.csv")[-1]
 incomestatement20 <- read.csv("cleaneddata/incomestatement20.csv")[-1]
 
-plot_income_statement(incomestatement19,text1)
+plot_income_statement(incomestatement19,text1,"2019")
+
 ```   
 
 ```{r}
-plot_income_statement(incomestatement20,text2)
+plot_income_statement(incomestatement20,text2,"2020")
+
 ```
 <br>
 This plot idea comes from this [website](https://plotly.com/r/waterfall-charts/).
