@@ -271,6 +271,7 @@ textangle = 270,showarrow = F, xref='paper', yref='paper', size=18)))
 This interactive time series plot can provide the chance to see the data value on each date. You can either put the cursor on the point you would like to know or drag a specific time range that you want to observe. 
 From above time series, we can discuss the pandemic impacts on Hermès and worldwide stock market. We could observe that the impact on the other major luxury brands' stock return was much more ferocious than the impact on the Hermès one. Also, since Hermès stock can only be traded in French stock market, we should expect it has similar fluctuations with the CAC40 (the french stock index). Among all the french stock including the index, Hermès took the minimal tumble on the March 11th, which was the time the world wide stock market took a sharp tumble. I also included the S&P500 index in the plot as the marker of global stock market. 
 <br>
+
 ### Hermès Stock vs French Index in 2020
 
 ```{r}
