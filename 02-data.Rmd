@@ -132,11 +132,49 @@ write.csv(sector_first,"rawdata/2020_Q1_Rev_Sector.csv")
 
 ```{r}
 ### 2020 2nd Quarter Revenue by Sector(Wendy)
-PDF1.sec<-PDF1[c(207:214)]
-d<-PDF1.sec%>%str_squish()%>%strsplit(split = " ")
-d<-d[-c(4,13,17)]
-secsector<-data.frame('Sector'=get_variable2(d),'2nd2020'=secdata2020(d),'2nd2019'=secdata2019(d),'evolution published'=evolpub(d),'evolution at constant exchange rates'=evolcons(d))
-write.csv(secsector,"rawdata/2020_Q2_Rev_Sector.csv")
+PDF1 <- pdf_text("Resources/hermes_1hresults2020_va.pdf") %>%readr::read_lines()
+PDF1.geo<-PDF1[c(179:187)]
+c<-PDF1.geo%>%str_squish()%>%strsplit(split = " ")
+c<-c[-c(4,13,17)]
+get_variable2<-function(a){
+  variable_name<-c()
+  len<-c()
+  for(i in 1:length(a)){
+    len[i]<-length(a[[i]])
+    variable_name[i]<-paste(a[[i]][-c((len[i]-3):len[i])],collapse=' ')
+  }
+  return(variable_name)
+}
+secdata2019<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-2)]
+  }
+  return(data)
+}
+secdata2020<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-3)]
+  }
+  return(data)
+}
+evolpub<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][(length(a[[i]])-1)]
+  }
+  return(data)
+}
+evolcons<-function(a){
+  data<-c()
+  for (i in 1:length(a)){
+    data[i]<-a[[i]][length(a[[i]])]
+  }
+  return(data)
+}
+secgeo<-data.frame('Area'=get_variable2(c),'2nd2020'=secdata2020(c),'2nd2019'=secdata2019(c),'evolution published'=evolpub(c),'evolution at constant exchange rates'=evolcons(c))
+write.csv(secgeo,"rawdata/2020_Q2_Rev_Geo.csv")
 ```
 
 

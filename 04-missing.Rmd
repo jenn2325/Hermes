@@ -1,3 +1,7 @@
 # Missing values
 
 Luckily, all of our data do not contain any missing values. Therefore we did not encounter any problem with it.
+
+<center>
+![](Resources/tenor.gif)
+</center>
